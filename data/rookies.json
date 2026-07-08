@@ -4,99 +4,89 @@
     "draft_pick": 1,
     "college": "BYU",
     "team": "Washington Wizards",
-    "team_name_matches": ["Washington Wizards", "Wizards"],
-    "summer_league_slugs": ["nba-summer-las-vegas"],
-    "espn_id": "5142718",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142718.png"
+    "realgm_slug": "AJ-Dybantsa",
+    "realgm_id": "186435",
+    "headshot_url": null
   },
   {
     "name": "Darryn Peterson",
     "draft_pick": 2,
     "college": "Kansas",
     "team": "Utah Jazz",
-    "team_name_matches": ["Utah Jazz", "Jazz"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
-    "espn_id": "5041955",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041955.png"
+    "realgm_slug": "Darryn-Peterson",
+    "realgm_id": "196886",
+    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Peterson_Darryn_ku25.jpg"
   },
   {
     "name": "Cameron Boozer",
     "draft_pick": 3,
     "college": "Duke",
     "team": "Memphis Grizzlies",
-    "team_name_matches": ["Memphis Grizzlies", "Grizzlies"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
-    "espn_id": "5041935",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041935.png"
+    "realgm_slug": "Cameron-Boozer",
+    "realgm_id": "184287",
+    "headshot_url": null
   },
   {
     "name": "Caleb Wilson",
     "draft_pick": 4,
     "college": "North Carolina",
     "team": "Chicago Bulls",
-    "team_name_matches": ["Chicago Bulls", "Bulls"],
-    "summer_league_slugs": ["nba-summer-las-vegas"],
-    "espn_id": "5095151",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5095151.png"
+    "realgm_slug": "Caleb-Wilson",
+    "realgm_id": "200430",
+    "headshot_url": null
   },
   {
     "name": "Keaton Wagler",
     "draft_pick": 5,
     "college": "Illinois",
     "team": "LA Clippers",
-    "team_name_matches": ["LA Clippers", "Los Angeles Clippers", "Clippers"],
-    "summer_league_slugs": ["nba-summer-las-vegas"],
-    "espn_id": "5254165",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5254165.png"
+    "realgm_slug": "Keaton-Wagler",
+    "realgm_id": "242991",
+    "headshot_url": null
   },
   {
     "name": "Mikel Brown Jr.",
     "draft_pick": 6,
     "college": "Louisville",
     "team": "Brooklyn Nets",
-    "team_name_matches": ["Brooklyn Nets", "Nets"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
-    "espn_id": "5101761",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5101761.png"
+    "realgm_slug": "Mikel-Brown-Jr",
+    "realgm_id": "198014",
+    "headshot_url": null
   },
   {
     "name": "Darius Acuff Jr.",
     "draft_pick": 7,
     "college": "Arkansas",
     "team": "Sacramento Kings",
-    "team_name_matches": ["Sacramento Kings", "Kings"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
-    "espn_id": "5142620",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142620.png"
+    "realgm_slug": "Darius-Acuff-Jr",
+    "realgm_id": "216187",
+    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Acuff_Darius_ark25.jpg"
   },
   {
     "name": "Kingston Flemings",
     "draft_pick": 8,
     "college": "Houston",
     "team": "Atlanta Hawks",
-    "team_name_matches": ["Atlanta Hawks", "Hawks"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
-    "espn_id": "5149077",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5149077.png"
+    "realgm_slug": "Kingston-Flemings",
+    "realgm_id": "216043",
+    "headshot_url": null
   },
   {
     "name": "Morez Johnson Jr.",
     "draft_pick": 9,
     "college": "Michigan",
     "team": "Dallas Mavericks",
-    "team_name_matches": ["Dallas Mavericks", "Mavericks"],
-    "summer_league_slugs": ["nba-summer-las-vegas"],
-    "espn_id": "4873153",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/4873153.png"
+    "realgm_slug": "Morez-Johnson-Jr",
+    "realgm_id": "194003",
+    "headshot_url": null
   },
   {
     "name": "Brayden Burries",
     "draft_pick": 10,
     "college": "Arizona",
     "team": "Milwaukee Bucks",
-    "team_name_matches": ["Milwaukee Bucks", "Bucks"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
-    "espn_id": "5082206",
-    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5082206.png"
+    "realgm_slug": "Brayden-Burries",
+    "realgm_id": "200247",
+    "headshot_url": null
   }
 ]

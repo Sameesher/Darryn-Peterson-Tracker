@@ -1,11 +1,11 @@
-name,team,draft_pick,games,ppg,rpg,apg,fg_pct,fg3_pct
-AJ Dybantsa,Washington Wizards,1,0,0.0,0.0,0.0,0.0,0.0
-Darryn Peterson,Utah Jazz,2,2,26.5,3.5,7.0,52.8,43.8
-Cameron Boozer,Memphis Grizzlies,3,0,0.0,0.0,0.0,0.0,0.0
-Caleb Wilson,Chicago Bulls,4,0,0.0,0.0,0.0,0.0,0.0
-Keaton Wagler,LA Clippers,5,0,0.0,0.0,0.0,0.0,0.0
-Mikel Brown Jr.,Brooklyn Nets,6,0,0.0,0.0,0.0,0.0,0.0
-Darius Acuff Jr.,Sacramento Kings,7,2,23.5,2.0,3.5,33.3,27.8
-Kingston Flemings,Atlanta Hawks,8,0,0.0,0.0,0.0,0.0,0.0
-Morez Johnson Jr.,Dallas Mavericks,9,0,0.0,0.0,0.0,0.0,0.0
-Brayden Burries,Milwaukee Bucks,10,0,0.0,0.0,0.0,0.0,0.0
+name,team,draft_pick,games,ppg,rpg,apg,spg,bpg,ts_pct,avg_game_score
+AJ Dybantsa,Washington Wizards,1,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Darryn Peterson,Utah Jazz,2,2,26.5,3.5,7.0,1.0,1.0,69.7,19.5
+Cameron Boozer,Memphis Grizzlies,3,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Caleb Wilson,Chicago Bulls,4,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Keaton Wagler,LA Clippers,5,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Mikel Brown Jr.,Brooklyn Nets,6,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Darius Acuff Jr.,Sacramento Kings,7,2,23.5,2.0,3.5,1.0,1.0,47.1,11.4
+Kingston Flemings,Atlanta Hawks,8,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Morez Johnson Jr.,Dallas Mavericks,9,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Brayden Burries,Milwaukee Bucks,10,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

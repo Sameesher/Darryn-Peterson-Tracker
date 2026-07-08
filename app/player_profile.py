@@ -311,5 +311,5 @@ def render_profile(player_name: str):
 
     st.divider()
     st.caption(
-        "Data sources: nba_api (NBA regular season), ESPN's unofficial API (Summer League)."
+        "Data sources: RealGM (Summer League box scores + photos), nba_api (NBA regular season, once it starts)."
     )

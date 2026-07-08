@@ -1,5 +1,5 @@
-player,game_date,opponent,points,rebounds,assists,fg_made,fg_attempts,three_made,three_attempts,ft_made,ft_attempts
-Darryn Peterson,2026-07-04,Hawks,28,5,2,11,21,4,7,2,3
-Darryn Peterson,2026-07-06,Grizzlies,25,2,12,8,15,3,9,3,3
-Darius Acuff Jr.,2026-07-04,Nets,25,1,4,9,29,1,9,5,7
-Darius Acuff Jr.,2026-07-06,Bucks,22,3,3,7,19,4,9,2,2
+player,game_date,opponent,boxscore_url,min,pts,fgm,fga,tpm,tpa,ftm,fta,orb,drb,reb,ast,stl,blk,tov,pf
+Darryn Peterson,7/4/2026,Hawks,https://basketball.realgm.com/nba/boxscore/2026-07-04/Atlanta-at-Utah/524604,27:21,28,11,21,4,7,2,3,2,3,5,2,0,2,8,4
+Darryn Peterson,7/6/2026,Grizzlies,https://basketball.realgm.com/nba/boxscore/2026-07-06/Memphis-at-Utah/524606,27:47,25,8,15,3,9,3,3,0,2,2,12,2,0,2,1
+Darius Acuff Jr.,7/4/2026,Nets,https://basketball.realgm.com/nba/boxscore/2026-07-04/Brooklyn-at-Sacramento/524594,30:46,25,9,29,1,9,5,7,0,1,1,4,1,0,1,1
+Darius Acuff Jr.,7/6/2026,Bucks,https://basketball.realgm.com/nba/boxscore/2026-07-06/Milwaukee-at-Sacramento/524602,27:55,22,7,19,4,9,2,2,1,2,3,3,1,2,4,2
