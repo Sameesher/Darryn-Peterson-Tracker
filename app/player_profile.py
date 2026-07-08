@@ -271,7 +271,7 @@ def render_profile(player_name: str):
                 stage_df = filtered[filtered["stage"] == stage]
                 with col:
                     fig = plot_hexbin_interactive(stage_df, STAGE_LABELS.get(stage, stage), mode=mode)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
         else:
             fig = go.Figure()
             for stage in selected_stages:
@@ -291,7 +291,7 @@ def render_profile(player_name: str):
             fig = draw_court_plotly(fig)
             fig.update_layout(height=650, legend=dict(orientation="h"),
                                paper_bgcolor=DARK_BG, plot_bgcolor=DARK_BG)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
     with tab2:
         if "possession_type" in filtered.columns and filtered["possession_type"].notna().any():
@@ -305,7 +305,7 @@ def render_profile(player_name: str):
                 fig2.add_trace(go.Bar(x=stage_role["possession_type"], y=stage_role["count"], name=stage))
             fig2.update_layout(barmode="group", height=450,
                                xaxis_title="Possession type", yaxis_title="Shot attempts")
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width='stretch')
         else:
             st.info("No possession-type data yet for this stage.")
 

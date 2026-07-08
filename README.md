@@ -66,21 +66,30 @@ scripts/
 ```
 
 ## Data source notes (read before you trust this blindly)
-- **Summer League sites differ per team.** Salt Lake City Summer League
-  (Jazz, Hawks, Grizzlies - already played) is confirmed via
-  `nba-summer-utah`. The other 7 rookies' teams are guessed as either
-  `nba-summer-las-vegas` or `nba-summer-california` in `rookies.json`
-  **before those events had started** - double check and correct these
-  slugs once real schedules are confirmed.
-- **Most rookies currently show 0 games.** That's accurate, not a bug - Vegas
-  Summer League hadn't started as of when this was built.
-- **Free throws, rebounds, and assists** are extracted via text-pattern
-  matching on ESPN's play-by-play descriptions (e.g. "assists" in
-  parentheses, "defensive rebound" as a line), not official structured box
-  score fields. Spot-check against a real box score periodically.
-- **Player photos**: hotlinked from ESPN's CDN once `resolve_rookie_ids.py`
-  finds each rookie on their team's official roster - which may lag right
-  after a draft. Missing photos fall back to a placeholder.
+- **Summer League sites, corrected**: teams often play at *multiple* Summer
+  League sites before Vegas (e.g. Jazz/Grizzlies/Hawks played Salt Lake City
+  first; Kings/Nets/Bucks played the California Classic first). `rookies.json`
+  now lists `summer_league_slugs` as an array per player to cover this - an
+  earlier version of this file only had room for one site per player and
+  silently missed games as a result.
+- **RealGM as a cross-check**: RealGM (basketball.realgm.com) publishes
+  structured Summer League box scores per player, which turned out more
+  complete/accurate than this project's own ESPN play-by-play parsing for at
+  least one game (Peterson's rebounds/assists were originally missing from
+  manual extraction and have since been corrected against RealGM's numbers).
+  Worth spot-checking new automated data against RealGM's game logs
+  (`basketball.realgm.com/player/<Name>/GameLogs/<id>`) periodically.
+- **Most rookies still show 0 games as of this writing** - not because
+  nothing happened, but because the automated fetcher hadn't been run with
+  the corrected multi-site config yet. Run `fetch_espn_rookies.py` (or wait
+  for the scheduled GitHub Action) to pull in what's already happened for
+  Dybantsa, Boozer, Wilson, Wagler, Brown, Flemings, Johnson, and Burries.
+- **Free throws, rebounds, and assists** from the automated ESPN fetcher are
+  extracted via text-pattern matching on play descriptions, not official
+  structured fields - RealGM's structured tables are more reliable where
+  available.
+- **Player photos**: hotlinked from ESPN's CDN using ESPN athlete IDs, now
+  filled in for all 10 rookies in `rookies.json`.
 - **NBA-season data** (`fetch_nba_games.py`, via `nba_api`) is currently
   Darryn-Peterson-only - extending it to all 10 rookies once the season
   starts is a straightforward copy of the existing pattern, not yet done.

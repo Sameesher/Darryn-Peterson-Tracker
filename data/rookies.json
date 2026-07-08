@@ -5,9 +5,9 @@
     "college": "BYU",
     "team": "Washington Wizards",
     "team_name_matches": ["Washington Wizards", "Wizards"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-las-vegas"],
+    "espn_id": "5142718",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142718.png"
   },
   {
     "name": "Darryn Peterson",
@@ -15,7 +15,7 @@
     "college": "Kansas",
     "team": "Utah Jazz",
     "team_name_matches": ["Utah Jazz", "Jazz"],
-    "summer_league_slug": "nba-summer-utah",
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
     "espn_id": "5041955",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041955.png"
   },
@@ -25,9 +25,9 @@
     "college": "Duke",
     "team": "Memphis Grizzlies",
     "team_name_matches": ["Memphis Grizzlies", "Grizzlies"],
-    "summer_league_slug": "nba-summer-utah",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
+    "espn_id": "5041935",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041935.png"
   },
   {
     "name": "Caleb Wilson",
@@ -35,9 +35,9 @@
     "college": "North Carolina",
     "team": "Chicago Bulls",
     "team_name_matches": ["Chicago Bulls", "Bulls"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-las-vegas"],
+    "espn_id": "5095151",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5095151.png"
   },
   {
     "name": "Keaton Wagler",
@@ -45,9 +45,9 @@
     "college": "Illinois",
     "team": "LA Clippers",
     "team_name_matches": ["LA Clippers", "Los Angeles Clippers", "Clippers"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-las-vegas"],
+    "espn_id": "5254165",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5254165.png"
   },
   {
     "name": "Mikel Brown Jr.",
@@ -55,9 +55,9 @@
     "college": "Louisville",
     "team": "Brooklyn Nets",
     "team_name_matches": ["Brooklyn Nets", "Nets"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
+    "espn_id": "5101761",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5101761.png"
   },
   {
     "name": "Darius Acuff Jr.",
@@ -65,9 +65,9 @@
     "college": "Arkansas",
     "team": "Sacramento Kings",
     "team_name_matches": ["Sacramento Kings", "Kings"],
-    "summer_league_slug": "nba-summer-california",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
+    "espn_id": "5142620",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142620.png"
   },
   {
     "name": "Kingston Flemings",
@@ -75,9 +75,9 @@
     "college": "Houston",
     "team": "Atlanta Hawks",
     "team_name_matches": ["Atlanta Hawks", "Hawks"],
-    "summer_league_slug": "nba-summer-utah",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"],
+    "espn_id": "5149077",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5149077.png"
   },
   {
     "name": "Morez Johnson Jr.",
@@ -85,9 +85,9 @@
     "college": "Michigan",
     "team": "Dallas Mavericks",
     "team_name_matches": ["Dallas Mavericks", "Mavericks"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-las-vegas"],
+    "espn_id": "4873153",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/4873153.png"
   },
   {
     "name": "Brayden Burries",
@@ -95,8 +95,8 @@
     "college": "Arizona",
     "team": "Milwaukee Bucks",
     "team_name_matches": ["Milwaukee Bucks", "Bucks"],
-    "summer_league_slug": "nba-summer-las-vegas",
-    "espn_id": null,
-    "headshot_url": null
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"],
+    "espn_id": "5082206",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5082206.png"
   }
 ]

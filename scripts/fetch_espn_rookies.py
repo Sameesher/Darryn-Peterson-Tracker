@@ -16,7 +16,7 @@ IMPORTANT CAVEATS (same as the original single-player version, now doubled
 across 10 players - read before trusting this blindly):
 - ESPN does not publish an official API; this could change/break without notice.
 - Different rookies play in different Summer League "sites" (Salt Lake City,
-  Las Vegas, California Classic). See data/rookies.json's summer_league_slug
+  Las Vegas, California Classic). See data/rookies.json's summer_league_slugs
   field per player - the Las Vegas/California Classic assignments are
   reasonable guesses made before those events started and may need
   correcting once real schedules are confirmed.
@@ -278,11 +278,26 @@ def main():
 
     for rookie in rookies:
         name = rookie["name"]
-        league = rookie["summer_league_slug"]
-        print(f"\n{name} ({rookie['team']}, {league}):")
+        leagues = rookie.get("summer_league_slugs") or [rookie.get("summer_league_slug")]
+        print(f"\n{name} ({rookie['team']}):")
 
-        games = find_recent_team_games(league, rookie["team_name_matches"], args.days_back)
-        print(f"  Found {len(games)} completed game(s) in the last {args.days_back} day(s)")
+        games = []
+        for league in leagues:
+            if not league:
+                continue
+            league_games = find_recent_team_games(league, rookie["team_name_matches"], args.days_back)
+            for g in league_games:
+                g["league"] = league
+            games.extend(league_games)
+            print(f"  [{league}] found {len(league_games)} completed game(s) in the last {args.days_back} day(s)")
+
+        seen_ids = set()
+        deduped_games = []
+        for g in games:
+            if g["event_id"] not in seen_ids:
+                seen_ids.add(g["event_id"])
+                deduped_games.append(g)
+        games = deduped_games
 
         for game in games:
             key = f"{name}|{game['event_id']}"
@@ -290,7 +305,7 @@ def main():
                 continue
             print(f"  Processing new game {game['event_id']} ({game['date']} vs {game['opponent']})...")
             try:
-                summary = fetch_game_summary(league, game["event_id"])
+                summary = fetch_game_summary(game["league"], game["event_id"])
             except Exception as e:
                 print(f"    [error] Could not fetch summary: {e}")
                 continue
