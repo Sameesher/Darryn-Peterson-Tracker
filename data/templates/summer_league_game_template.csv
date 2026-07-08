@@ -1,4 +1,4 @@
-game_date,opponent,shot_made,shot_type,shot_zone,shot_x,shot_y,assisted,possession_type
-2026-07-10,Celtics,1,3PT,Above the Break 3,,,1,spot_up
-2026-07-10,Celtics,0,2PT,Mid-Range,,,0,pull_up
-2026-07-10,Celtics,1,2PT,Restricted Area,,,0,pnr_ball_handler
+player,game_date,opponent,shot_made,shot_type,shot_zone,shot_x,shot_y,assisted,possession_type
+Darryn Peterson,2026-07-10,Celtics,1,3PT,Above the Break 3,,,1,spot_up
+Darryn Peterson,2026-07-10,Celtics,0,2PT,Mid-Range,,,0,pull_up
+Darryn Peterson,2026-07-10,Celtics,1,2PT,Restricted Area,,,0,pnr_ball_handler

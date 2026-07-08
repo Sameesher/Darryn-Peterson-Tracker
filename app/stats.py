@@ -14,8 +14,12 @@ has the real FT numbers, just not merged into this calculation yet).
 import pandas as pd
 
 
-def compute_season_stats(df: pd.DataFrame) -> dict:
-    """Returns PPG, FG%, 3FG%, FT%, and games played from a shots dataframe."""
+def compute_season_stats(df: pd.DataFrame, player: str = None) -> dict:
+    """Returns PPG, FG%, 3FG%, FT%, and games played from a shots dataframe.
+    If `player` is given, filters to that player's rows first."""
+    if player is not None and not df.empty and "player" in df.columns:
+        df = df[df["player"] == player]
+
     if df.empty:
         return {"ppg": 0.0, "fg_pct": 0.0, "fg3_pct": 0.0, "ft_pct": 0.0, "games": 0}
 

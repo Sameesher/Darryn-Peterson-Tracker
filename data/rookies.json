@@ -1,0 +1,102 @@
+[
+  {
+    "name": "AJ Dybantsa",
+    "draft_pick": 1,
+    "college": "BYU",
+    "team": "Washington Wizards",
+    "team_name_matches": ["Washington Wizards", "Wizards"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Darryn Peterson",
+    "draft_pick": 2,
+    "college": "Kansas",
+    "team": "Utah Jazz",
+    "team_name_matches": ["Utah Jazz", "Jazz"],
+    "summer_league_slug": "nba-summer-utah",
+    "espn_id": "5041955",
+    "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041955.png"
+  },
+  {
+    "name": "Cameron Boozer",
+    "draft_pick": 3,
+    "college": "Duke",
+    "team": "Memphis Grizzlies",
+    "team_name_matches": ["Memphis Grizzlies", "Grizzlies"],
+    "summer_league_slug": "nba-summer-utah",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Caleb Wilson",
+    "draft_pick": 4,
+    "college": "North Carolina",
+    "team": "Chicago Bulls",
+    "team_name_matches": ["Chicago Bulls", "Bulls"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Keaton Wagler",
+    "draft_pick": 5,
+    "college": "Illinois",
+    "team": "LA Clippers",
+    "team_name_matches": ["LA Clippers", "Los Angeles Clippers", "Clippers"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Mikel Brown Jr.",
+    "draft_pick": 6,
+    "college": "Louisville",
+    "team": "Brooklyn Nets",
+    "team_name_matches": ["Brooklyn Nets", "Nets"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Darius Acuff Jr.",
+    "draft_pick": 7,
+    "college": "Arkansas",
+    "team": "Sacramento Kings",
+    "team_name_matches": ["Sacramento Kings", "Kings"],
+    "summer_league_slug": "nba-summer-california",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Kingston Flemings",
+    "draft_pick": 8,
+    "college": "Houston",
+    "team": "Atlanta Hawks",
+    "team_name_matches": ["Atlanta Hawks", "Hawks"],
+    "summer_league_slug": "nba-summer-utah",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Morez Johnson Jr.",
+    "draft_pick": 9,
+    "college": "Michigan",
+    "team": "Dallas Mavericks",
+    "team_name_matches": ["Dallas Mavericks", "Mavericks"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  },
+  {
+    "name": "Brayden Burries",
+    "draft_pick": 10,
+    "college": "Arizona",
+    "team": "Milwaukee Bucks",
+    "team_name_matches": ["Milwaukee Bucks", "Bucks"],
+    "summer_league_slug": "nba-summer-las-vegas",
+    "espn_id": null,
+    "headshot_url": null
+  }
+]

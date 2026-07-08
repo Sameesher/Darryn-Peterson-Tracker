@@ -1,36 +1,30 @@
 """
-Summer League data ingestion.
-
-stats.nba.com's Summer League shot/play-by-play data isn't reliably covered
-by nba_api. Rather than block the pipeline on scraping something fragile,
-this script takes manually-entered per-game data (from box scores, ESPN,
-or your own charting while watching) and normalizes it to match the schema
-used by the NBA-season data, so the dashboard can treat both consistently.
+Manual Summer League data ingestion (fallback for when the automated
+fetch_espn_rookies.py misses a game or gets something wrong).
 
 Workflow:
 1. Copy data/templates/summer_league_game_template.csv
-2. Fill in one row per shot attempt (or per game summary row, if you don't
-   want shot-by-shot detail — see NOTES.md for the two supported formats)
-3. Run this script to validate + append to data/raw/summer_league_shots.csv
+2. Fill in one row per shot attempt, including a `player` column with the
+   rookie's exact name as it appears in data/rookies.json
+3. Run this script to validate + append to data/raw/rookie_shots.csv
 """
-import glob
 import os
 import sys
 
 import pandas as pd
 
 RAW_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
-TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "templates")
-OUTPUT_PATH = os.path.join(RAW_DIR, "summer_league_shots.csv")
+OUTPUT_PATH = os.path.join(RAW_DIR, "rookie_shots.csv")
 
 REQUIRED_COLUMNS = [
+    "player",          # must match a name in data/rookies.json exactly
     "game_date",
     "opponent",
     "shot_made",       # 1 or 0
-    "shot_type",       # "2PT" or "3PT"
-    "shot_zone",       # e.g. "Above the Break 3", "Restricted Area" (match NBA schema loosely)
-    "shot_x",          # optional, leave blank if unknown
-    "shot_y",          # optional, leave blank if unknown
+    "shot_type",       # "2PT", "3PT", or "FT"
+    "shot_zone",       # e.g. "Above the Break 3", "Restricted Area" (blank for FT)
+    "shot_x",          # optional, leave blank if unknown (blank for FT)
+    "shot_y",          # optional, leave blank if unknown (blank for FT)
     "assisted",        # 1 or 0 or blank if unknown
     "possession_type",  # "spot_up", "pull_up", "pnr_ball_handler", "off_screen", "iso", "transition", "post_up"
 ]
@@ -51,16 +45,15 @@ def main(input_csv: str):
         existing = pd.read_csv(OUTPUT_PATH)
         # NOTE: no drop_duplicates() here on purpose. Two shots (or two free
         # throws) in the same game can have genuinely identical values in
-        # every column - e.g. two made free throws with no location data -
-        # and blindly deduping would silently delete one of them. The
-        # tradeoff is that re-running this script on the *same* input file
-        # twice will double-count it, so don't do that.
+        # every column, and blindly deduping would silently delete one of
+        # them. The tradeoff is that re-running this script on the *same*
+        # input file twice will double-count it, so don't do that.
         combined = pd.concat([existing, df], ignore_index=True)
     else:
         combined = df
 
     combined.to_csv(OUTPUT_PATH, index=False)
-    print(f"Summer League dataset now has {len(combined)} total shot rows -> {OUTPUT_PATH}")
+    print(f"Rookie shots dataset now has {len(combined)} total rows -> {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

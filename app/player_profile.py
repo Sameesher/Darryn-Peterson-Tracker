@@ -1,9 +1,10 @@
 """
-Darryn Peterson: Shot Chart & Role Evolution Dashboard
-
-Run with:
-    streamlit run app/dashboard.py
+Shared rendering logic for a single rookie's profile page. Every rookie's
+page (app/pages/*.py) is a thin wrapper that just calls render_profile(name) -
+this is the ONE place the actual layout/chart code lives, so every rookie's
+page looks identical in style, just with their own data.
 """
+import json
 import math
 import os
 import sys
@@ -19,14 +20,12 @@ from stats import compute_season_stats
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 SHOTS_PATH = os.path.join(BASE_DIR, "data", "processed", "shots.csv")
-
-STAGE_COLORS = {"nba": "#1D428A", "summer_league": "#F58426"}  # Jazz-ish colors
-STAGE_LABELS = {"nba": "NBA", "summer_league": "Summer League"}
+ROOKIES_PATH = os.path.join(BASE_DIR, "data", "rookies.json")
 
 DARK_BG = "#0d1b2a"
 COURT_LINE_COLOR = "#4a6178"
-JAZZ_NAVY = "#002B5C"
-JAZZ_GOLD = "#F9A01B"
+STAGE_COLORS = {"nba": "#1D428A", "summer_league": "#F58426"}
+STAGE_LABELS = {"nba": "NBA", "summer_league": "Summer League"}
 
 FREQ_COLORSCALE = [
     [0.0, "#16232f"], [0.25, "#5a4632"], [0.5, "#c97a2e"],
@@ -34,31 +33,51 @@ FREQ_COLORSCALE = [
 ]
 EFF_COLORSCALE = [[0.0, "#2b6cb0"], [0.5, "#16232f"], [1.0, "#e8823a"]]
 
-# Darryn Peterson's ESPN athlete ID and the Jazz's ESPN team logo - hotlinked
-# directly from ESPN's public CDN (same images their site displays).
-PLAYER_HEADSHOT_URL = "https://a.espncdn.com/i/headshots/nba/players/full/5041955.png"
-TEAM_LOGO_URL = "https://a.espncdn.com/i/teamlogos/nba/500/utah.png"
-
-
 HOOP_X, HOOP_Y = 0.0, 5.25
+
+# ESPN team logo URLs keyed by team display name (hotlinked from ESPN's public CDN)
+TEAM_LOGO_SLUGS = {
+    "Washington Wizards": "wsh", "Utah Jazz": "utah", "Memphis Grizzlies": "mem",
+    "Chicago Bulls": "chi", "LA Clippers": "lac", "Brooklyn Nets": "bkn",
+    "Sacramento Kings": "sac", "Atlanta Hawks": "atl", "Dallas Mavericks": "dal",
+    "Milwaukee Bucks": "mil",
+}
+
+
+@st.cache_data
+def load_shots():
+    if not os.path.exists(SHOTS_PATH):
+        return pd.DataFrame()
+    df = pd.read_csv(SHOTS_PATH)
+    if "shot_x" in df.columns:
+        nba_mask = df["stage"] == "nba"
+        df.loc[nba_mask, "shot_x"] = df.loc[nba_mask, "shot_x"] / 10
+        df.loc[nba_mask, "shot_y"] = df.loc[nba_mask, "shot_y"] / 10
+    return df
+
+
+@st.cache_data
+def load_rookies():
+    with open(ROOKIES_PATH) as f:
+        return json.load(f)
+
+
+def get_rookie_config(player_name: str):
+    for r in load_rookies():
+        if r["name"] == player_name:
+            return r
+    return None
 
 
 def draw_court_plotly(fig):
-    """Add a dark-theme NBA half-court outline to a Plotly figure (feet, hoop at y≈5.25)."""
     shapes = [
-        dict(type="rect", x0=-25, y0=0, x1=25, y1=35,
+        dict(type="rect", x0=-25, y0=0, x1=25, y1=35, line=dict(color=COURT_LINE_COLOR, width=1.2)),
+        dict(type="rect", x0=-8, y0=0, x1=8, y1=19, line=dict(color=COURT_LINE_COLOR, width=1.2)),
+        dict(type="circle", x0=-6, y0=13, x1=6, y1=25, line=dict(color=COURT_LINE_COLOR, width=1.2)),
+        dict(type="path", path="M -22,0 L -22,14 Q -22,33 0,33 Q 22,33 22,14 L 22,0",
              line=dict(color=COURT_LINE_COLOR, width=1.2)),
-        dict(type="rect", x0=-8, y0=0, x1=8, y1=19,
-             line=dict(color=COURT_LINE_COLOR, width=1.2)),
-        dict(type="circle", x0=-6, y0=13, x1=6, y1=25,
-             line=dict(color=COURT_LINE_COLOR, width=1.2)),
-        dict(type="path",
-             path="M -22,0 L -22,14 Q -22,33 0,33 Q 22,33 22,14 L 22,0",
-             line=dict(color=COURT_LINE_COLOR, width=1.2)),
-        dict(type="circle", x0=-0.75, y0=4.5, x1=0.75, y1=6,
-             line=dict(color=COURT_LINE_COLOR, width=1.2)),
-        dict(type="path", path="M -4,5.25 Q 0,9.25 4,5.25",
-             line=dict(color=COURT_LINE_COLOR, width=1.2)),
+        dict(type="circle", x0=-0.75, y0=4.5, x1=0.75, y1=6, line=dict(color=COURT_LINE_COLOR, width=1.2)),
+        dict(type="path", path="M -4,5.25 Q 0,9.25 4,5.25", line=dict(color=COURT_LINE_COLOR, width=1.2)),
     ]
     for s in shapes:
         fig.add_shape(**s)
@@ -69,11 +88,6 @@ def draw_court_plotly(fig):
 
 
 def compute_hex_bins(df: pd.DataFrame, gridsize: int = 16):
-    """
-    Uses matplotlib's hexbin purely as a binning engine (never rendered) to get
-    real hexagonal-grid bin centers, then computes make/attempt/pct/avg-distance
-    for each bin. Returns a DataFrame ready to plot with Plotly.
-    """
     x, y, made = df["shot_x"].values, df["shot_y"].values, df["shot_made"].values
     dist = np.sqrt((x - HOOP_X) ** 2 + (y - HOOP_Y) ** 2)
 
@@ -97,24 +111,17 @@ def compute_hex_bins(df: pd.DataFrame, gridsize: int = 16):
 
 
 def plot_hexbin_interactive(df: pd.DataFrame, title: str, mode: str = "frequency"):
-    """Interactive Plotly hexbin shot chart with hover tooltips (make/attempt/pct + distance)."""
     df = df.dropna(subset=["shot_x", "shot_y", "shot_made"])
     fig = go.Figure()
 
     if len(df) >= 5:
         bins = compute_hex_bins(df)
-
         if mode == "frequency":
-            color_vals = bins["attempts"]
-            colorscale = FREQ_COLORSCALE
-            colorbar_title = "Shots"
+            color_vals, colorscale, colorbar_title = bins["attempts"], FREQ_COLORSCALE, "Shots"
         else:
-            color_vals = bins["pct"]
-            colorscale = EFF_COLORSCALE
-            colorbar_title = "FG%"
+            color_vals, colorscale, colorbar_title = bins["pct"], EFF_COLORSCALE, "FG%"
 
         sizes = 16 + np.sqrt(bins["attempts"]) * 9
-
         customdata = np.stack([bins["makes"], bins["attempts"], bins["pct"], bins["avg_dist"]], axis=-1)
 
         fig.add_trace(go.Scatter(
@@ -129,8 +136,7 @@ def plot_hexbin_interactive(df: pd.DataFrame, title: str, mode: str = "frequency
             ),
             customdata=customdata,
             hovertemplate=(
-                "Shots: %{customdata[0]:.0f}/%{customdata[1]:.0f} "
-                "(%{customdata[2]:.1f}%)<br>"
+                "Shots: %{customdata[0]:.0f}/%{customdata[1]:.0f} (%{customdata[2]:.1f}%)<br>"
                 "Distance: %{customdata[3]:.1f} ft<extra></extra>"
             ),
         ))
@@ -152,39 +158,40 @@ def plot_hexbin_interactive(df: pd.DataFrame, title: str, mode: str = "frequency
     fig.update_layout(
         title=dict(text=title, font=dict(size=18, color="white", family="Arial Black")),
         paper_bgcolor=DARK_BG, plot_bgcolor=DARK_BG,
-        height=560, margin=dict(l=10, r=10, t=50, b=10),
-        showlegend=False,
+        height=560, margin=dict(l=10, r=10, t=50, b=10), showlegend=False,
     )
     return fig
 
 
-@st.cache_data
-def load_shots():
-    if not os.path.exists(SHOTS_PATH):
-        return pd.DataFrame()
-    df = pd.read_csv(SHOTS_PATH)
-    # nba_api coordinates are in units of 1/10 foot; convert to feet
-    if "shot_x" in df.columns:
-        df.loc[df["stage"] == "nba", "shot_x"] = df.loc[df["stage"] == "nba", "shot_x"] / 10
-        df.loc[df["stage"] == "nba", "shot_y"] = df.loc[df["stage"] == "nba", "shot_y"] / 10
-    return df
+def render_player_card(rookie_config: dict, stats: dict):
+    name = rookie_config["name"]
+    team = rookie_config["team"]
+    headshot_url = rookie_config.get("headshot_url")
+    logo_slug = TEAM_LOGO_SLUGS.get(team)
+    logo_url = f"https://a.espncdn.com/i/teamlogos/nba/500/{logo_slug}.png" if logo_slug else ""
 
+    headshot_html = (
+        f'<img src="{headshot_url}" style="width:64px; height:64px; border-radius:50%; '
+        f'background:white; object-fit:cover;" />'
+        if headshot_url else
+        '<div style="width:64px; height:64px; border-radius:50%; background:#2a3a4a; '
+        'display:flex; align-items:center; justify-content:center; color:#8a99a8; '
+        'font-size:24px;">?</div>'
+    )
+    logo_html = f'<img src="{logo_url}" style="width:48px; height:48px;" />' if logo_url else ""
 
-def render_player_card(stats: dict):
-    """PerThirtySix-style player card: photo, team-color header, PPG, FG/3FG/FT%."""
     st.markdown(
         f"""
         <div style="border-radius:12px; overflow:hidden; border:1px solid #2a3a4a;">
-          <div style="background:{JAZZ_NAVY}; padding:16px 20px; display:flex;
+          <div style="background:#002B5C; padding:16px 20px; display:flex;
                       align-items:center; justify-content:space-between;">
             <div style="display:flex; align-items:center; gap:14px;">
-              <img src="{PLAYER_HEADSHOT_URL}" style="width:64px; height:64px;
-                   border-radius:50%; background:white; object-fit:cover;" />
+              {headshot_html}
               <div style="color:white; font-size:22px; font-weight:800; line-height:1.1;">
-                Darryn Peterson
+                {name}
               </div>
             </div>
-            <img src="{TEAM_LOGO_URL}" style="width:48px; height:48px;" />
+            {logo_html}
           </div>
           <div style="background:{DARK_BG}; padding:18px 20px 20px 20px;">
             <div style="font-size:40px; font-weight:800; color:white; line-height:1;">
@@ -194,18 +201,12 @@ def render_player_card(stats: dict):
               points per game ({stats['games']} game{'s' if stats['games'] != 1 else ''})
             </div>
             <div style="display:flex; gap:22px;">
-              <div>
-                <span style="color:white; font-size:18px; font-weight:800;">{stats['fg_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> fg</span>
-              </div>
-              <div>
-                <span style="color:white; font-size:18px; font-weight:800;">{stats['fg3_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> 3fg</span>
-              </div>
-              <div>
-                <span style="color:white; font-size:18px; font-weight:800;">{stats['ft_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> ft</span>
-              </div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['fg_pct']}%</span>
+                <span style="color:#8a99a8; font-size:12px;"> fg</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['fg3_pct']}%</span>
+                <span style="color:#8a99a8; font-size:12px;"> 3fg</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['ft_pct']}%</span>
+                <span style="color:#8a99a8; font-size:12px;"> ft</span></div>
             </div>
           </div>
         </div>
@@ -214,47 +215,54 @@ def render_player_card(stats: dict):
     )
 
 
-st.set_page_config(page_title="Darryn Peterson Tracker", layout="wide")
+def render_profile(player_name: str):
+    """The full profile page for one rookie - call this from a pages/*.py file."""
+    st.set_page_config(page_title=f"{player_name} | Rookie Tracker", layout="wide")
 
-shots = load_shots()
+    rookie_config = get_rookie_config(player_name)
+    if rookie_config is None:
+        st.error(f"'{player_name}' isn't in data/rookies.json.")
+        return
 
-header_col, card_col = st.columns([2, 1])
-with header_col:
-    st.title("🏀 Darryn Peterson:")
-    st.caption(
-        "Tracking his statistics from Summer League into his "
-        "NBA rookie season. Data updates automatically as new games are added."
-    )
-with card_col:
-    season_stats = compute_season_stats(shots) if not shots.empty else compute_season_stats(pd.DataFrame())
-    render_player_card(season_stats)
-    st.caption(
-        " Free throw PCT coming soon "
-    )
+    shots = load_shots()
+    player_shots = shots[shots["player"] == player_name] if not shots.empty else shots
 
-st.divider()
+    header_col, card_col = st.columns([2, 1])
+    with header_col:
+        st.title(f"🏀 {player_name}: Shot Chart & Role Evolution")
+        st.caption(
+            f"Draft pick #{rookie_config['draft_pick']} ({rookie_config['college']}) - "
+            f"{rookie_config['team']}. Tracking shot profile and on-court role from "
+            "Summer League into the NBA rookie season."
+        )
+    with card_col:
+        season_stats = compute_season_stats(shots, player=player_name)
+        render_player_card(rookie_config, season_stats)
 
-if shots.empty:
-    st.info(
-        "No Summer League or NBA shot data yet. Run `scripts/fetch_nba_games.py` "
-        "and/or fill in a Summer League template (see data/templates/) and "
-        "`scripts/build_dataset.py`, then refresh."
-    )
-else:
-    stages_available = shots["stage"].dropna().unique().tolist()
+    st.divider()
+
+    if player_shots.empty:
+        st.info(
+            f"No shot data yet for {player_name}. This is expected if their team "
+            "hasn't played Summer League games yet, or the automated fetcher "
+            "hasn't run since their last game."
+        )
+        return
+
+    stages_available = player_shots["stage"].dropna().unique().tolist()
     selected_stages = st.multiselect(
-        "Stage(s) to show", options=stages_available, default=stages_available
+        "Stage(s) to show", options=stages_available, default=stages_available,
+        key=f"stages_{player_name}",
     )
-    filtered = shots[shots["stage"].isin(selected_stages)]
+    filtered = player_shots[player_shots["stage"].isin(selected_stages)]
 
     tab1, tab2 = st.tabs(["Shot Chart", "Role Over Time"])
 
     with tab1:
         chart_style = st.radio(
             "Chart style", ["Favorite Spots (frequency)", "Make/Miss (efficiency)", "Scatter (raw)"],
-            horizontal=True,
+            horizontal=True, key=f"style_{player_name}",
         )
-
         if chart_style in ("Favorite Spots (frequency)", "Make/Miss (efficiency)"):
             mode = "frequency" if chart_style.startswith("Favorite") else "efficiency"
             st.caption("Hover over any hexagon for the exact shot count, FG%, and distance.")
@@ -273,51 +281,35 @@ else:
                 made = stage_df[stage_df["shot_made"] == 1]
                 missed = stage_df[stage_df["shot_made"] == 0]
                 fig.add_trace(go.Scatter(
-                    x=made["shot_x"], y=made["shot_y"], mode="markers",
-                    name=f"{stage} - made",
+                    x=made["shot_x"], y=made["shot_y"], mode="markers", name=f"{stage} - made",
                     marker=dict(symbol="circle", size=8, color=STAGE_COLORS.get(stage, "green")),
                 ))
                 fig.add_trace(go.Scatter(
-                    x=missed["shot_x"], y=missed["shot_y"], mode="markers",
-                    name=f"{stage} - missed",
+                    x=missed["shot_x"], y=missed["shot_y"], mode="markers", name=f"{stage} - missed",
                     marker=dict(symbol="x", size=8, color=STAGE_COLORS.get(stage, "red")),
                 ))
             fig = draw_court_plotly(fig)
-            fig.update_layout(
-                height=650, legend=dict(orientation="h"),
-                paper_bgcolor=DARK_BG, plot_bgcolor=DARK_BG,
-            )
+            fig.update_layout(height=650, legend=dict(orientation="h"),
+                               paper_bgcolor=DARK_BG, plot_bgcolor=DARK_BG)
             st.plotly_chart(fig, use_container_width=True)
 
     with tab2:
         if "possession_type" in filtered.columns and filtered["possession_type"].notna().any():
             role_counts = (
                 filtered.dropna(subset=["possession_type"])
-                .groupby(["stage", "possession_type"])
-                .size()
-                .reset_index(name="count")
+                .groupby(["stage", "possession_type"]).size().reset_index(name="count")
             )
             fig2 = go.Figure()
             for stage in selected_stages:
                 stage_role = role_counts[role_counts["stage"] == stage]
-                fig2.add_trace(go.Bar(
-                    x=stage_role["possession_type"], y=stage_role["count"], name=stage
-                ))
-            fig2.update_layout(
-                barmode="group", height=450,
-                xaxis_title="Possession type", yaxis_title="Shot attempts",
-            )
+                fig2.add_trace(go.Bar(x=stage_role["possession_type"], y=stage_role["count"], name=stage))
+            fig2.update_layout(barmode="group", height=450,
+                               xaxis_title="Possession type", yaxis_title="Shot attempts")
             st.plotly_chart(fig2, use_container_width=True)
         else:
-            st.info(
-                "No possession-type data yet. NBA shot chart data alone doesn't "
-                "include this — it needs to be tagged manually or pulled from "
-                "play-by-play (see scripts/fetch_nba_games.py's game log fetch "
-                "as a starting point for a fuller pipeline)."
-            )
+            st.info("No possession-type data yet for this stage.")
 
-st.divider()
-st.caption(
-    "Data sources: nba_api (NBA regular season), ESPN's unofficial API (Summer League). "
-    "See README for update workflow."
-)
+    st.divider()
+    st.caption(
+        "Data sources: nba_api (NBA regular season), ESPN's unofficial API (Summer League)."
+    )
