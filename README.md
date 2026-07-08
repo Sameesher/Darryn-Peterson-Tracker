@@ -12,6 +12,13 @@ college despite running point in high school. That's a testable hypothesis —
 if his role expands, we should see it in usage rate, assist rate, and shot
 selection (more pull-up/PnR shots vs. catch-and-shoot) over time.
 
+The shot chart uses **hexbin visualization on a dark court**, matching
+PerThirtySix's shot chart tool: a "Favorite Spots" view (hexagons colored by
+shot volume, dark → bright orange) and a "Make/Miss" view (hexagons colored
+by FG%, blue = cold, orange = hot). A raw scatter (made/missed dots) is also
+available as a fallback for when there's too little data for hexbins to be
+meaningful.
+
 ## Project structure
 ```
 data/                  # raw + processed game data (committed, updated by CI)
@@ -31,11 +38,19 @@ requirements.txt
 ## Data source notes (read before you run this)
 - **NBA/rookie season**: uses the `nba_api` package (wraps stats.nba.com).
   Once he has a Jazz roster ID, `fetch_nba_games.py` pulls shot chart + play-by-play
-  data automatically.
-- **Summer League**: stats.nba.com's Summer League data is NOT covered by
-  `nba_api` reliably. `fetch_summer_league.py` is set up as a manual entry point —
-  you fill in a small CSV per game from box scores until/unless a better source
-  is found. This keeps the pipeline consistent without blocking on a bad API.
+  data automatically. Real tracked coordinates.
+- **Summer League — now fully automatic**: `fetch_espn_summer_league.py` uses
+  ESPN's (unofficial, undocumented) JSON API to discover recently completed
+  Jazz Summer League games on its own, pull the play-by-play, and extract
+  Darryn Peterson's shot attempts — no manual entry needed. It runs on the
+  same nightly GitHub Action as the NBA fetch. See the big comment at the
+  top of that script for exactly how it works and what it can't guarantee
+  (ESPN's API is unofficial and could change; shot locations may be estimated
+  from the play's text description rather than real coordinates if ESPN
+  doesn't expose coordinates for these games — check the `location_source`
+  column in the data to see which happened for any given shot).
+- `fetch_summer_league.py` (manual CSV template) still exists as a fallback
+  for any game the automated script misses or gets wrong.
 
 ## Running locally
 ```bash

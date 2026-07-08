@@ -6,6 +6,10 @@ Run with:
 """
 import os
 
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -14,6 +18,17 @@ BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 SHOTS_PATH = os.path.join(BASE_DIR, "data", "processed", "shots.csv")
 
 STAGE_COLORS = {"nba": "#1D428A", "summer_league": "#F58426"}  # Jazz-ish colors
+STAGE_LABELS = {"nba": "NBA", "summer_league": "Summer League"}
+
+
+DARK_BG = "#0d1b2a"
+COURT_LINE_COLOR = "#4a6178"
+FREQ_CMAP = LinearSegmentedColormap.from_list(
+    "pts_freq", ["#16232f", "#5a4632", "#c97a2e", "#ff9a2e", "#ffb238"]
+)
+EFF_CMAP = LinearSegmentedColormap.from_list(
+    "pts_eff", ["#2b6cb0", "#16232f", "#e8823a"]
+)
 
 
 def draw_court(fig):
@@ -31,6 +46,71 @@ def draw_court(fig):
     fig.update_xaxes(range=[-27, 27], showgrid=False, zeroline=False, visible=False)
     fig.update_yaxes(range=[0, 47], showgrid=False, zeroline=False, visible=False,
                       scaleanchor="x", scaleratio=1)
+    return fig
+
+
+def draw_court_mpl(ax, color=COURT_LINE_COLOR, lw=1.1):
+    """Draw an NBA half-court outline on a matplotlib axis, dark-theme style (feet, hoop at y=0)."""
+    ax.add_patch(mpatches.Rectangle((-25, 0), 50, 47, fill=False, edgecolor=color, lw=lw))
+    ax.add_patch(mpatches.Rectangle((-8, 0), 16, 19, fill=False, edgecolor=color, lw=lw))
+    ax.add_patch(mpatches.Circle((0, 19), 6, fill=False, edgecolor=color, lw=lw))
+    ax.add_patch(mpatches.Arc((0, 5.25), 8, 8, theta1=0, theta2=180, edgecolor=color, lw=lw))
+    ax.add_patch(mpatches.Circle((0, 5.25), 0.75, fill=False, edgecolor=color, lw=lw))
+    ax.plot([-3, 3], [4, 4], color=color, lw=lw)
+    ax.plot([-22, -22], [0, 14], color=color, lw=lw)
+    ax.plot([22, 22], [0, 14], color=color, lw=lw)
+    three_arc = mpatches.Arc((0, 5.25), 47.5, 47.5, theta1=22, theta2=158,
+                              edgecolor=color, lw=lw)
+    ax.add_patch(three_arc)
+    ax.set_xlim(-27, 27)
+    ax.set_ylim(0, 40)
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+
+def _style_dark_figure(fig, ax, title):
+    fig.patch.set_facecolor(DARK_BG)
+    ax.set_facecolor(DARK_BG)
+    ax.set_title(title, fontsize=13, fontweight="bold", color="white", pad=10)
+
+
+def plot_hexbin_chart(df: pd.DataFrame, title: str, mode: str = "frequency"):
+    """
+    PerThirtySix-style hexbin shot chart on a dark court.
+    mode="frequency" -> hexagons colored/shaded by shot volume (their "Favorite Spots" view).
+    mode="efficiency" -> hexagons colored by FG% (their "Make/Miss" view).
+    """
+    fig, ax = plt.subplots(figsize=(6.5, 6.4))
+    df = df.dropna(subset=["shot_x", "shot_y", "shot_made"])
+
+    if len(df) >= 5:
+        if mode == "frequency":
+            hb = ax.hexbin(
+                df["shot_x"], df["shot_y"],
+                gridsize=20, extent=(-25, 25, 0, 35),
+                cmap=FREQ_CMAP, mincnt=1,
+                edgecolors=DARK_BG, linewidths=0.6,
+                bins="log",
+            )
+        else:
+            hb = ax.hexbin(
+                df["shot_x"], df["shot_y"],
+                C=df["shot_made"], reduce_C_function=np.mean,
+                gridsize=20, extent=(-25, 25, 0, 35),
+                cmap=EFF_CMAP, mincnt=1, vmin=0, vmax=1,
+                edgecolors=DARK_BG, linewidths=0.6,
+            )
+        cbar = fig.colorbar(hb, ax=ax, shrink=0.6, pad=0.02)
+        cbar.set_label("Shot volume" if mode == "frequency" else "FG%",
+                        fontsize=9, color="white")
+        cbar.ax.tick_params(labelsize=8, colors="white")
+        cbar.outline.set_edgecolor(DARK_BG)
+    else:
+        ax.text(0, 20, "Not enough shots yet", ha="center", fontsize=11, color="#8a99a8")
+
+    draw_court_mpl(ax)
+    _style_dark_figure(fig, ax, title)
+    fig.tight_layout()
     return fig
 
 
@@ -73,26 +153,54 @@ else:
     tab1, tab2 = st.tabs(["Shot Chart", "Role Over Time"])
 
     with tab1:
-        fig = go.Figure()
-        for stage in selected_stages:
-            stage_df = filtered[filtered["stage"] == stage].dropna(subset=["shot_x", "shot_y"])
-            if stage_df.empty:
-                continue
-            made = stage_df[stage_df["shot_made"] == 1]
-            missed = stage_df[stage_df["shot_made"] == 0]
-            fig.add_trace(go.Scatter(
-                x=made["shot_x"], y=made["shot_y"], mode="markers",
-                name=f"{stage} - made",
-                marker=dict(symbol="circle", size=8, color=STAGE_COLORS.get(stage, "green")),
-            ))
-            fig.add_trace(go.Scatter(
-                x=missed["shot_x"], y=missed["shot_y"], mode="markers",
-                name=f"{stage} - missed",
-                marker=dict(symbol="x", size=8, color=STAGE_COLORS.get(stage, "red")),
-            ))
-        fig = draw_court(fig)
-        fig.update_layout(height=650, legend=dict(orientation="h"))
-        st.plotly_chart(fig, use_container_width=True)
+        chart_style = st.radio(
+            "Chart style", ["Favorite Spots (frequency)", "Make/Miss (efficiency)", "Scatter (raw)"],
+            horizontal=True,
+        )
+
+        if chart_style == "Favorite Spots (frequency)":
+            st.caption(
+                "Hexagons colored/sized by how often he shoots from that zone — "
+                "brighter orange = higher volume. Matches PerThirtySix's 'Favorite Spots' view."
+            )
+            cols = st.columns(len(selected_stages)) if selected_stages else [st]
+            for col, stage in zip(cols, selected_stages):
+                stage_df = filtered[filtered["stage"] == stage]
+                with col:
+                    fig = plot_hexbin_chart(stage_df, STAGE_LABELS.get(stage, stage), mode="frequency")
+                    st.pyplot(fig, use_container_width=True)
+        elif chart_style == "Make/Miss (efficiency)":
+            st.caption(
+                "Hexagons colored by field-goal % in that zone — blue = cold, "
+                "orange = hot. Needs a handful of shots per zone to look meaningful."
+            )
+            cols = st.columns(len(selected_stages)) if selected_stages else [st]
+            for col, stage in zip(cols, selected_stages):
+                stage_df = filtered[filtered["stage"] == stage]
+                with col:
+                    fig = plot_hexbin_chart(stage_df, STAGE_LABELS.get(stage, stage), mode="efficiency")
+                    st.pyplot(fig, use_container_width=True)
+        else:
+            fig = go.Figure()
+            for stage in selected_stages:
+                stage_df = filtered[filtered["stage"] == stage].dropna(subset=["shot_x", "shot_y"])
+                if stage_df.empty:
+                    continue
+                made = stage_df[stage_df["shot_made"] == 1]
+                missed = stage_df[stage_df["shot_made"] == 0]
+                fig.add_trace(go.Scatter(
+                    x=made["shot_x"], y=made["shot_y"], mode="markers",
+                    name=f"{stage} - made",
+                    marker=dict(symbol="circle", size=8, color=STAGE_COLORS.get(stage, "green")),
+                ))
+                fig.add_trace(go.Scatter(
+                    x=missed["shot_x"], y=missed["shot_y"], mode="markers",
+                    name=f"{stage} - missed",
+                    marker=dict(symbol="x", size=8, color=STAGE_COLORS.get(stage, "red")),
+                ))
+            fig = draw_court(fig)
+            fig.update_layout(height=650, legend=dict(orientation="h"))
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab2:
         if "possession_type" in filtered.columns and filtered["possession_type"].notna().any():

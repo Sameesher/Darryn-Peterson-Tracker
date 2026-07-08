@@ -26,6 +26,7 @@ SHOT_SCHEMA = [
     "shot_x",
     "shot_y",
     "possession_type",
+    "location_source",  # "espn_coordinate", "estimated_from_text", or blank (nba_api = real coords)
 ]
 
 
@@ -48,6 +49,7 @@ def load_nba_shots() -> pd.DataFrame:
         "shot_x": raw.get("LOC_X"),
         "shot_y": raw.get("LOC_Y"),
         "possession_type": None,  # nba_api shotchartdetail doesn't tag this directly
+        "location_source": "nba_api",  # these are real tracked coordinates
     })
     return out
 
@@ -67,6 +69,8 @@ def load_summer_league_shots() -> pd.DataFrame:
         "shot_x": raw.get("shot_x"),
         "shot_y": raw.get("shot_y"),
         "possession_type": raw.get("possession_type"),
+        "location_source": raw.get("location_source", pd.Series(dtype=object)).fillna("manual_entry")
+            if "location_source" in raw.columns else "manual_entry",
     })
     return out
 
