@@ -18,20 +18,17 @@ actually behaves historically, with a full profile page for each player.
 | 9 | Morez Johnson Jr. | Dallas Mavericks |
 | 10 | Brayden Burries | Milwaukee Bucks |
 
-## Two separate data pipelines, on purpose
-| Pipeline | Source | Feeds | Script |
+## Three independent scrapers
+| # | Script | Source | Writes to |
 |---|---|---|---|
-| **Stats / ROY ranking** | RealGM | `season_stats.csv`, `rankings.csv` | `scripts/fetch_realgm.py` |
-| **Shot charts** | ESPN | `shots.csv` | `scripts/fetch_espn_shots.py` |
+| 1 | `scripts/fetch_realgm.py` | RealGM | `data/raw/rookie_boxscores.csv` |
+| 2 | `scripts/fetch_espn_shots.py` | ESPN | `data/raw/rookie_shots.csv` |
+| 3 | `scripts/fetch_espn_headshots.py` | ESPN | `data/rookies.json` (`espn_id`/`headshot_url` only) |
 
-These are intentionally independent. RealGM has complete, accurate box
-scores (minutes, both rebound types, steals, blocks, turnovers, fouls) and
-real player photos, which is what the ROY formula and player cards need -
-but RealGM has no shot x/y coordinates anywhere. ESPN's play-by-play does
-(or at least has distance/type text to estimate from), so shot charts stay
-on the older ESPN-based pipeline while everything else moved to RealGM.
-Both run on the same schedule (see the GitHub Action) and write to
-completely separate files, so a problem in one never affects the other.
+Each is fully independent - separate output file, separate dedup state,
+separate failure mode. A problem in one (e.g. RealGM's bot detection kicking
+in) never blocks the other two. Run all three, then `build_dataset.py` to
+merge scrapers 1 and 2's output into the rankings/shot-chart data the app reads.
 
 ## The ROY scoring formula (v2 - research-informed)
 Set in `app/roy_score.py`. The original version weighted PPG/FG%/APG/RPG
@@ -62,28 +59,29 @@ GmSc = PTS + 0.4*FGM - 0.7*FGA - 0.4*(FTA-FTM) + 0.7*ORB + 0.3*DRB
 ## Project structure
 ```
 data/
-  rookies.json                    # roster config: name, team, draft pick, RealGM IDs/photo, ESPN team-match/summer-league-site config
+  rookies.json                    # roster config: name, team, draft pick, RealGM IDs, ESPN id/headshot
   raw/
-    rookie_boxscores.csv          # full box-score line per game, all 10 rookies, scraped from RealGM
-    rookie_shots.csv              # shot-by-shot data, all 10 rookies, scraped from ESPN
+    rookie_boxscores.csv          # full box-score line per game, all 10 rookies (scraper 1: RealGM)
+    rookie_shots.csv              # shot-by-shot data, all 10 rookies (scraper 2: ESPN)
   processed/
     shots.csv                     # unified shot data the shot charts read from
     season_stats.csv              # one row per rookie: PPG/RPG/APG/SPG/BPG/TS%/GameScore/games
     rankings.csv                  # season_stats + computed ROY score, sorted
-  processed_realgm_games.json     # dedup state: which RealGM boxscore URLs already ingested
-  processed_espn_shot_games.json  # dedup state: which ESPN games already ingested for shots
+  processed_realgm_games.json     # scraper 1's dedup state (RealGM boxscore URLs already ingested)
+  processed_espn_shot_games.json  # scraper 2's dedup state (ESPN games already ingested for shots)
 app/
   Home.py                         # hub page: ranked top 10 list (Streamlit entrypoint)
   player_profile.py               # shared rendering logic - every rookie's page calls this
   pages/                          # one thin file per rookie (Streamlit's multipage convention)
-  stats.py                        # shot-based stat calculator (FG%/3FG%/FT%) for the player card
+  stats.py                        # shot-based helper (used only by the scatter/legacy view)
   roy_score.py                    # the v2 weighting formula + Game Score/TS% computation
 scripts/
-  fetch_realgm.py                 # RealGM pipeline: box scores + photos for all 10
-  fetch_espn_shots.py              # ESPN pipeline: shot locations for all 10 (separate from stats)
-  fetch_nba_games.py               # nba_api pull for real NBA season (Darryn Peterson only so far)
-  fetch_summer_league.py           # manual CSV fallback for shot data (legacy schema)
-  build_dataset.py                 # merges both pipelines' outputs, computes rankings
+  fetch_realgm.py                 # scraper 1: box scores + advanced-stat inputs (RealGM)
+  fetch_espn_shots.py             # scraper 2: shot locations (ESPN)
+  fetch_espn_headshots.py         # scraper 3: profile photos (ESPN)
+  fetch_nba_games.py              # nba_api pull for real NBA season (Darryn Peterson only so far)
+  fetch_summer_league.py          # manual CSV fallback for shot data (legacy schema)
+  build_dataset.py                # merges scrapers 1+2's output, computes rankings
 ```
 
 ## Data source notes (read before you trust this blindly)
@@ -118,7 +116,9 @@ scripts/
 ## Running locally
 ```bash
 pip install -r requirements.txt
-python scripts/fetch_realgm.py
+python scripts/fetch_realgm.py            # scraper 1: stats
+python scripts/fetch_espn_shots.py        # scraper 2: shot charts
+python scripts/fetch_espn_headshots.py    # scraper 3: photos (only needs to succeed once per player)
 python scripts/build_dataset.py
 streamlit run app/Home.py
 ```
