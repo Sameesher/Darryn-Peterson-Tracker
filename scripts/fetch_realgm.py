@@ -1,11 +1,9 @@
 """
 Fully automated data ingestion from RealGM (basketball.realgm.com) for all
-10 tracked rookies. This replaces the earlier ESPN-based fetcher entirely -
-RealGM's structured game-log tables turned out more complete and accurate
-(they include full box scores: minutes, both rebound types, steals, blocks,
-turnovers, personal fouls - not just points/rebounds/assists) and RealGM's
-own player photos are used as the headshot source too, since hotlinking
-ESPN's headshot CDN wasn't working reliably.
+10 tracked rookies. This is the STATS pipeline only - box scores, points,
+rebounds, assists, etc. Player headshots come from ESPN (better image
+quality), configured directly in data/rookies.json - this script does not
+touch headshot_url at all.
 
 IMPORTANT TRADEOFF - read this before wondering where the shot chart went:
 RealGM's game logs are box scores only - no shot x/y coordinates. Switching
@@ -202,13 +200,6 @@ def main():
             continue
 
         soup = BeautifulSoup(resp.text, "html.parser")
-
-        if not rookie.get("headshot_url"):
-            photo = fetch_photo_url(soup)
-            if photo:
-                rookie["headshot_url"] = photo
-                rookies_updated = True
-                print(f"  Captured headshot: {photo}")
 
         table, headers = fetch_gamelog_table(soup)
         if table is None:

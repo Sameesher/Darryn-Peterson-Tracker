@@ -16,10 +16,10 @@ import plotly.graph_objects as go
 import streamlit as st
 
 sys.path.insert(0, os.path.dirname(__file__))
-from stats import compute_season_stats
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 SHOTS_PATH = os.path.join(BASE_DIR, "data", "processed", "shots.csv")
+SEASON_STATS_PATH = os.path.join(BASE_DIR, "data", "processed", "season_stats.csv")
 ROOKIES_PATH = os.path.join(BASE_DIR, "data", "rookies.json")
 
 DARK_BG = "#0d1b2a"
@@ -54,6 +54,22 @@ def load_shots():
         df.loc[nba_mask, "shot_x"] = df.loc[nba_mask, "shot_x"] / 10
         df.loc[nba_mask, "shot_y"] = df.loc[nba_mask, "shot_y"] / 10
     return df
+
+
+@st.cache_data
+def load_season_stats_row(player_name: str) -> dict:
+    """RealGM-based stats (same source as the Home hub) for one rookie's
+    player card - NOT derived from shots.csv, since shot data (ESPN pipeline)
+    and box-score data (RealGM pipeline) can have very different coverage
+    per player, and the card should always match what the hub shows."""
+    default = {"games": 0, "ppg": 0.0, "rpg": 0.0, "apg": 0.0, "ts_pct": 0.0, "avg_game_score": 0.0}
+    if not os.path.exists(SEASON_STATS_PATH):
+        return default
+    df = pd.read_csv(SEASON_STATS_PATH)
+    row = df[df["name"] == player_name]
+    if row.empty:
+        return default
+    return row.iloc[0].to_dict()
 
 
 @st.cache_data
@@ -201,12 +217,14 @@ def render_player_card(rookie_config: dict, stats: dict):
               points per game ({stats['games']} game{'s' if stats['games'] != 1 else ''})
             </div>
             <div style="display:flex; gap:22px;">
-              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['fg_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> fg</span></div>
-              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['fg3_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> 3fg</span></div>
-              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['ft_pct']}%</span>
-                <span style="color:#8a99a8; font-size:12px;"> ft</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['ts_pct']}%</span>
+                <span style="color:#8a99a8; font-size:12px;"> ts</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['rpg']}</span>
+                <span style="color:#8a99a8; font-size:12px;"> reb</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['apg']}</span>
+                <span style="color:#8a99a8; font-size:12px;"> ast</span></div>
+              <div><span style="color:white; font-size:18px; font-weight:800;">{stats['avg_game_score']}</span>
+                <span style="color:#8a99a8; font-size:12px;"> gmsc</span></div>
             </div>
           </div>
         </div>
@@ -236,16 +254,17 @@ def render_profile(player_name: str):
             "Summer League into the NBA rookie season."
         )
     with card_col:
-        season_stats = compute_season_stats(shots, player=player_name)
+        season_stats = load_season_stats_row(player_name)
         render_player_card(rookie_config, season_stats)
 
     st.divider()
 
     if player_shots.empty:
         st.info(
-            f"No shot data yet for {player_name}. This is expected if their team "
-            "hasn't played Summer League games yet, or the automated fetcher "
-            "hasn't run since their last game."
+            f"No shot-location data yet for {player_name} (this comes from a separate "
+            "pipeline than the stats card above - see README). The stats card can show "
+            "real numbers from RealGM even when this shot chart is empty, since RealGM "
+            "doesn't provide shot coordinates - only ESPN's play-by-play does."
         )
         return
 

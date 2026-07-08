@@ -87,19 +87,30 @@ scripts/
 ```
 
 ## Data source notes (read before you trust this blindly)
+- **RealGM has bot detection (CrowdSec)**. While researching this project,
+  some RealGM forum pages returned a CrowdSec captcha challenge to automated
+  requests ("We have seen a lot of robot like traffic..."). This is a real
+  risk for `fetch_realgm.py` running unattended in GitHub Actions - if the
+  scheduled run keeps coming back with zero new games for players you know
+  have played, this is the likely cause, not a code bug. There's no clean
+  fix for this from a public GitHub Action (no way to solve a captcha
+  automatically); if it becomes a persistent problem, the realistic options
+  are switching back to a source without bot detection, or manually
+  refreshing data periodically the way this was bootstrapped for Peterson/
+  Acuff/Dybantsa (searched + fetched directly, not via the automated script).
 - **RealGM is unofficial/unaffiliated with the NBA**; its page structure
-  could change without notice. `fetch_realgm.py`'s table-finder matches
-  on header text ("PTS", "FGM", etc.) rather than a hardcoded position,
-  which should survive minor layout tweaks but not a full redesign.
+  could change without notice beyond the bot-detection issue above.
 - **This could not be tested against the live RealGM site** from the
   sandbox that built it (network restricted to package registries only) -
   it was validated against a synthetic HTML fixture built from the real
   page structure, but the first live run is the actual test.
-- **Most rookies still show 0 games** until `fetch_realgm.py` actually runs
-  against the live site (via the scheduled GitHub Action, or run locally).
-- **Photos**: captured automatically from RealGM's player photo `<img>` tag
-  the first time `fetch_realgm.py` successfully fetches a rookie's page, and
-  written back into `rookies.json` so it's a one-time cost per player.
+- **Most rookies still show 0 games** - either because their team's Summer
+  League site hasn't started yet (e.g. Wizards/Bulls/Clippers/Mavericks
+  play Vegas, which starts ~July 10), or because `fetch_realgm.py` hasn't
+  successfully run against the live site yet for the others.
+- **Photos come from ESPN**, not RealGM - `data/rookies.json` has each
+  rookie's ESPN athlete ID and headshot URL populated directly (found via
+  web search), and `fetch_realgm.py` does not touch this field.
 - **NBA-season data** (`fetch_nba_games.py`, via `nba_api`) is currently
   Darryn-Peterson-only - extending it to all 10 once the season starts is a
   straightforward copy of the existing pattern, not yet done.
