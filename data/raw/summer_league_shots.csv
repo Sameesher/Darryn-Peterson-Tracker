@@ -21,3 +21,6 @@ game_date,opponent,shot_made,shot_type,shot_zone,shot_x,shot_y,assisted,possessi
 2026-07-04,Hawks,0,2PT,Mid-Range,13.0,12.8,,pull_up
 2026-07-04,Hawks,1,3PT,Right Corner 3,23.5,13.8,,pull_up
 2026-07-04,Hawks,1,3PT,Left Corner 3,-23.5,13.8,,pull_up
+2026-07-04,Hawks,1,FT,,,,0.0,
+2026-07-04,Hawks,0,FT,,,,0.0,
+2026-07-04,Hawks,1,FT,,,,0.0,

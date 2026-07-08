@@ -166,13 +166,29 @@ def extract_player_shots(game_summary: dict, game_date: str, opponent: str) -> l
         text = play.get("text", "")
         if not text.startswith(PLAYER_NAME):
             continue
-        if "free throw" in text.lower():
-            continue  # no court location for free throws
         if "makes" not in text.lower() and "misses" not in text.lower():
             continue  # rebounds, steals, blocks, turnovers, etc.
 
         shot_made = 1 if "makes" in text.lower() else 0
         assisted = "assist" in text.lower()
+
+        if "free throw" in text.lower():
+            # No court location for free throws - tracked as a location-less
+            # row so PPG/FT% can be computed accurately, but the shot chart
+            # (which requires shot_x/shot_y) naturally skips these.
+            rows.append({
+                "game_date": game_date,
+                "opponent": opponent,
+                "shot_made": shot_made,
+                "shot_type": "FT",
+                "shot_zone": "",
+                "shot_x": "",
+                "shot_y": "",
+                "assisted": 0,
+                "possession_type": "",
+                "location_source": "espn_text",
+            })
+            continue
 
         # Prefer real coordinates if ESPN provides them for this play
         coord = play.get("coordinate")

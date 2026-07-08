@@ -1,10 +1,39 @@
-# Darryn Peterson: The Next Great 
-This project consists of an auto-updating dashboard tracking Darryn Peterson's career including statistics from NBA Summer League into his Utah Jazz rookie season.
+# Darryn Peterson: Shot Chart & Role Evolution Tracker
 
+An auto-updating dashboard tracking Darryn Peterson's shooting profile and
+on-court role from NBA Summer League into his Utah Jazz rookie season.
+
+**Live question this project answers:** Is he staying an off-ball spot-up scorer,
+or is he growing into more of a lead-guard/playmaking role?
 
 ## Why this project
-Darryn Peterson might have been one of the most polarizing prospects in recent history. While many scouts acknowledged his generational talent concerns about his injuries and his motivation arose. It didn't help that the draft class he was apart of was one of the strongest in recent memory. So it wasn't much of a shock when AJ Dybantsa went number one overall and Peterson went number two.
-The inspiration behind this project stems from my personal belief that the decision to draft Dybantsa over Peterson was a mistake as I believe Peterson will grow into a Hall of Fame caliber player. I built this dashboard to show how much of an anomly he is as a prospect and why draft experts will be wondering how a player like him didn't go number one overall.
+Scouts flagged him as a knockdown shooter who mostly played off the ball in
+college despite running point in high school. That's a testable hypothesis —
+if his role expands, we should see it in usage rate, assist rate, and shot
+selection (more pull-up/PnR shots vs. catch-and-shoot) over time.
+
+The shot chart uses **interactive hexbin visualization on a dark court**
+(hover any hexagon for exact shot count / FG% / distance), matching
+PerThirtySix's shot chart tool: a "Favorite Spots" view (hexagons colored by
+shot volume, dark → bright orange) and a "Make/Miss" view (hexagons colored
+by FG%, blue = cold, orange = hot). A raw scatter (made/missed dots) is also
+available as a fallback for when there's too little data for hexbins to be
+meaningful.
+
+A **player card** at the top right shows his photo, team logo, PPG, FG%,
+3FG%, and FT% - hotlinked directly from ESPN's public image CDN. One
+deliberate omission from the reference site: "players that shoot from
+similar spots" isn't included, since that requires a league-wide shot
+database across hundreds of players to compute similarity, which is out of
+scope for a single-player tracker like this one.
+
+**Free throw tracking**: added specifically so PPG/FT% can be computed
+accurately (they're excluded from the shot chart itself since they have no
+court location). Summer League free throws are captured automatically by
+`fetch_espn_summer_league.py`. NBA-season free throws are NOT yet merged in
+(nba_api's shotchartdetail endpoint - used by `fetch_nba_games.py` - only
+returns field goal attempts) - so once NBA data exists, combined PPG/FT%
+will undercount NBA free throws specifically until that's added.
 
 ## Project structure
 ```

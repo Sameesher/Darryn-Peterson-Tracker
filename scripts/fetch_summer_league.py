@@ -49,7 +49,13 @@ def main(input_csv: str):
     os.makedirs(RAW_DIR, exist_ok=True)
     if os.path.exists(OUTPUT_PATH):
         existing = pd.read_csv(OUTPUT_PATH)
-        combined = pd.concat([existing, df], ignore_index=True).drop_duplicates()
+        # NOTE: no drop_duplicates() here on purpose. Two shots (or two free
+        # throws) in the same game can have genuinely identical values in
+        # every column - e.g. two made free throws with no location data -
+        # and blindly deduping would silently delete one of them. The
+        # tradeoff is that re-running this script on the *same* input file
+        # twice will double-count it, so don't do that.
+        combined = pd.concat([existing, df], ignore_index=True)
     else:
         combined = df
 
