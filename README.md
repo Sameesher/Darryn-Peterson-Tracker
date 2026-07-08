@@ -1,23 +1,10 @@
-# Darryn Peterson: Shot Chart & Role Evolution Tracker
+# Darryn Peterson: The Next Great 
+This project consists of an auto-updating dashboard tracking Darryn Peterson's career including statistics from NBA Summer League into his Utah Jazz rookie season.
 
-An auto-updating dashboard tracking Darryn Peterson's shooting profile and
-on-court role from NBA Summer League into his Utah Jazz rookie season.
-
-**Live question this project answers:** Is he staying an off-ball spot-up scorer,
-or is he growing into more of a lead-guard/playmaking role?
 
 ## Why this project
-Scouts flagged him as a knockdown shooter who mostly played off the ball in
-college despite running point in high school. That's a testable hypothesis —
-if his role expands, we should see it in usage rate, assist rate, and shot
-selection (more pull-up/PnR shots vs. catch-and-shoot) over time.
-
-The shot chart uses **hexbin visualization on a dark court**, matching
-PerThirtySix's shot chart tool: a "Favorite Spots" view (hexagons colored by
-shot volume, dark → bright orange) and a "Make/Miss" view (hexagons colored
-by FG%, blue = cold, orange = hot). A raw scatter (made/missed dots) is also
-available as a fallback for when there's too little data for hexbins to be
-meaningful.
+Darryn Peterson might have been one of the most polarizing prospects in recent history. While many scouts acknowledged his generational talent concerns about his injuries and his motivation arose. It didn't help that the draft class he was apart of was one of the strongest in recent memory. So it wasn't much of a shock when AJ Dybantsa went number one overall and Peterson went number two.
+The inspiration behind this project stems from my personal belief that the decision to draft Dybantsa over Peterson was a mistake as I believe Peterson will grow into a Hall of Fame caliber player. I built this dashboard to show how much of an anomly he is as a prospect and why draft experts will be wondering how a player like him didn't go number one overall.
 
 ## Project structure
 ```

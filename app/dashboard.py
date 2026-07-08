@@ -7,8 +7,9 @@ Run with:
 import os
 
 import matplotlib.patches as mpatches
+import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import LinearSegmentedColormap, LogNorm
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -76,11 +77,12 @@ def _style_dark_figure(fig, ax, title):
 
 def plot_hexbin_chart(df: pd.DataFrame, title: str, mode: str = "frequency"):
     """
-    PerThirtySix-style hexbin shot chart on a dark court.
-    mode="frequency" -> hexagons colored/shaded by shot volume (their "Favorite Spots" view).
-    mode="efficiency" -> hexagons colored by FG% (their "Make/Miss" view).
+    PerThirtySix-style hexbin shot chart on a dark court, with per-zone value
+    labels so exact numbers are visible, not just color.
+    mode="frequency" -> hexagons colored by shot volume, labeled with shot count.
+    mode="efficiency" -> hexagons colored by FG%, labeled with FG% per zone.
     """
-    fig, ax = plt.subplots(figsize=(6.5, 6.4))
+    fig, ax = plt.subplots(figsize=(6.8, 6.9))
     df = df.dropna(subset=["shot_x", "shot_y", "shot_made"])
 
     if len(df) >= 5:
@@ -90,8 +92,11 @@ def plot_hexbin_chart(df: pd.DataFrame, title: str, mode: str = "frequency"):
                 gridsize=20, extent=(-25, 25, 0, 35),
                 cmap=FREQ_CMAP, mincnt=1,
                 edgecolors=DARK_BG, linewidths=0.6,
-                bins="log",
+                norm=LogNorm(),  # color scale is log, but labels below show real counts
             )
+            values = hb.get_array()
+            def label_fmt(v):
+                return f"{int(round(v))}"
         else:
             hb = ax.hexbin(
                 df["shot_x"], df["shot_y"],
@@ -100,15 +105,45 @@ def plot_hexbin_chart(df: pd.DataFrame, title: str, mode: str = "frequency"):
                 cmap=EFF_CMAP, mincnt=1, vmin=0, vmax=1,
                 edgecolors=DARK_BG, linewidths=0.6,
             )
+            values = hb.get_array()
+            def label_fmt(v):
+                return f"{v * 100:.0f}%"
+
+        # Label every hexagon with its actual value (count or FG%) so the
+        # number is readable at a glance, not just inferred from color.
+        for (hx, hy), v in zip(hb.get_offsets(), values):
+            ax.text(
+                hx, hy, label_fmt(v), ha="center", va="center",
+                fontsize=7.5, fontweight="bold", color="white",
+                path_effects=[pe.withStroke(linewidth=2, foreground=DARK_BG)],
+            )
+
         cbar = fig.colorbar(hb, ax=ax, shrink=0.6, pad=0.02)
-        cbar.set_label("Shot volume" if mode == "frequency" else "FG%",
+        cbar.set_label("Shots taken" if mode == "frequency" else "FG%",
                         fontsize=9, color="white")
         cbar.ax.tick_params(labelsize=8, colors="white")
         cbar.outline.set_edgecolor(DARK_BG)
+
+        # On-chart legend explaining what the colors mean, so it doesn't
+        # rely on a caption above the chart that could get missed.
+        legend_text = (
+            "darker/blue = fewer shots, brighter orange = more shots"
+            if mode == "frequency"
+            else "blue = below-average FG%, orange = above-average FG%"
+        )
+        ax.text(
+            0, -3.2, legend_text, ha="center", va="top",
+            fontsize=8, color="#8a99a8", style="italic",
+        )
+        ax.text(
+            0, 36.5, f"n = {len(df)} shots", ha="center", va="bottom",
+            fontsize=9, color="#8a99a8",
+        )
     else:
         ax.text(0, 20, "Not enough shots yet", ha="center", fontsize=11, color="#8a99a8")
 
     draw_court_mpl(ax)
+    ax.set_ylim(-5, 38)  # extra room for the legend/count text below and above the court
     _style_dark_figure(fig, ax, title)
     fig.tight_layout()
     return fig
