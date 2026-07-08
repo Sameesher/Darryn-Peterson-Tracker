@@ -1,0 +1,38 @@
+name: Update Darryn Peterson dataset
+
+on:
+  schedule:
+    # Runs nightly at 9am UTC (~4-5am ET). Adjust as needed.
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}  # allows manual trigger from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch latest NBA data
+        run: python scripts/fetch_nba_games.py --season 2026-27
+        continue-on-error: true  # don't fail the whole job before he has NBA minutes
+
+      - name: Rebuild processed dataset
+        run: python scripts/build_dataset.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Auto-update dataset $(date -u +%Y-%m-%d)"
+          git push
