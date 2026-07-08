@@ -6,7 +6,9 @@
     "team": "Washington Wizards",
     "realgm_slug": "AJ-Dybantsa",
     "realgm_id": "186435",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Washington Wizards", "Wizards"],
+    "summer_league_slugs": ["nba-summer-las-vegas"]
   },
   {
     "name": "Darryn Peterson",
@@ -15,7 +17,9 @@
     "team": "Utah Jazz",
     "realgm_slug": "Darryn-Peterson",
     "realgm_id": "196886",
-    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Peterson_Darryn_ku25.jpg"
+    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Peterson_Darryn_ku25.jpg",
+    "espn_team_name_matches": ["Utah Jazz", "Jazz"],
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
   },
   {
     "name": "Cameron Boozer",
@@ -24,7 +28,9 @@
     "team": "Memphis Grizzlies",
     "realgm_slug": "Cameron-Boozer",
     "realgm_id": "184287",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Memphis Grizzlies", "Grizzlies"],
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
   },
   {
     "name": "Caleb Wilson",
@@ -33,7 +39,9 @@
     "team": "Chicago Bulls",
     "realgm_slug": "Caleb-Wilson",
     "realgm_id": "200430",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Chicago Bulls", "Bulls"],
+    "summer_league_slugs": ["nba-summer-las-vegas"]
   },
   {
     "name": "Keaton Wagler",
@@ -42,7 +50,9 @@
     "team": "LA Clippers",
     "realgm_slug": "Keaton-Wagler",
     "realgm_id": "242991",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["LA Clippers", "Los Angeles Clippers", "Clippers"],
+    "summer_league_slugs": ["nba-summer-las-vegas"]
   },
   {
     "name": "Mikel Brown Jr.",
@@ -51,7 +61,9 @@
     "team": "Brooklyn Nets",
     "realgm_slug": "Mikel-Brown-Jr",
     "realgm_id": "198014",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Brooklyn Nets", "Nets"],
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
   },
   {
     "name": "Darius Acuff Jr.",
@@ -60,7 +72,9 @@
     "team": "Sacramento Kings",
     "realgm_slug": "Darius-Acuff-Jr",
     "realgm_id": "216187",
-    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Acuff_Darius_ark25.jpg"
+    "headshot_url": "https://basketball.realgm.com/images/nba/4.2/profiles/photos/2006/Acuff_Darius_ark25.jpg",
+    "espn_team_name_matches": ["Sacramento Kings", "Kings"],
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
   },
   {
     "name": "Kingston Flemings",
@@ -69,7 +83,9 @@
     "team": "Atlanta Hawks",
     "realgm_slug": "Kingston-Flemings",
     "realgm_id": "216043",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Atlanta Hawks", "Hawks"],
+    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
   },
   {
     "name": "Morez Johnson Jr.",
@@ -78,7 +94,9 @@
     "team": "Dallas Mavericks",
     "realgm_slug": "Morez-Johnson-Jr",
     "realgm_id": "194003",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Dallas Mavericks", "Mavericks"],
+    "summer_league_slugs": ["nba-summer-las-vegas"]
   },
   {
     "name": "Brayden Burries",
@@ -87,6 +105,8 @@
     "team": "Milwaukee Bucks",
     "realgm_slug": "Brayden-Burries",
     "realgm_id": "200247",
-    "headshot_url": null
+    "headshot_url": null,
+    "espn_team_name_matches": ["Milwaukee Bucks", "Bucks"],
+    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
   }
 ]

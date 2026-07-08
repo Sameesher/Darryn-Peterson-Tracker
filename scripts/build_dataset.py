@@ -1,11 +1,11 @@
 """
 Builds the processed datasets the dashboard reads from:
-  data/processed/shots.csv        - frozen historical shot-location data
-                                     (Peterson + Acuff's first 2 games each,
-                                     from the old ESPN-based pipeline - no
-                                     new shot data comes in via RealGM)
+  data/processed/shots.csv        - shot-location data (from fetch_espn_shots.py,
+                                     a separate pipeline from the stats below -
+                                     see that script's docstring for why)
   data/processed/season_stats.csv - one row per rookie: PPG/RPG/APG/SPG/BPG,
-                                     TS%, avg Game Score, games played
+                                     TS%, avg Game Score, games played (from
+                                     fetch_realgm.py)
   data/processed/rankings.csv     - season_stats + computed ROY score, ranked
 
 Safe to re-run any time.
@@ -33,10 +33,10 @@ SHOT_SCHEMA = [
 ]
 
 
-def load_frozen_shots() -> pd.DataFrame:
-    """Historical shot-location data from the old ESPN-based pipeline.
-    Frozen - RealGM doesn't provide shot coordinates, so nothing new lands
-    here going forward. Kept so the two existing shot charts still render."""
+def load_shots() -> pd.DataFrame:
+    """Shot-location data from the ESPN-based pipeline (fetch_espn_shots.py) -
+    intentionally separate from RealGM's stats pipeline, since RealGM has no
+    shot coordinates."""
     path = os.path.join(RAW_DIR, "rookie_shots.csv")
     if not os.path.exists(path):
         return pd.DataFrame(columns=SHOT_SCHEMA)
@@ -90,10 +90,10 @@ def compute_season_stats(boxscores: pd.DataFrame, rookies: list) -> pd.DataFrame
 def main():
     os.makedirs(PROCESSED_DIR, exist_ok=True)
 
-    shots = load_frozen_shots()
+    shots = load_shots()
     shots_path = os.path.join(PROCESSED_DIR, "shots.csv")
     shots.to_csv(shots_path, index=False)
-    print(f"Wrote {len(shots)} frozen historical shot rows -> {shots_path}")
+    print(f"Wrote {len(shots)} shot rows -> {shots_path}")
 
     rookies_path = os.path.join(BASE_DIR, "data", "rookies.json")
     with open(rookies_path) as f:

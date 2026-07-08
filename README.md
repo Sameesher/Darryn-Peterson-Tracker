@@ -18,27 +18,20 @@ actually behaves historically, with a full profile page for each player.
 | 9 | Morez Johnson Jr. | Dallas Mavericks |
 | 10 | Brayden Burries | Milwaukee Bucks |
 
-## Data source: RealGM
-All stats now come from **basketball.realgm.com**'s structured game-log
-tables, not ESPN. Why the switch:
-- RealGM's tables include a *complete* box score (minutes, both rebound
-  types, steals, blocks, turnovers, personal fouls) - not just points/
-  rebounds/assists, which is what makes the advanced-stat formula below
-  possible at all.
-- ESPN's headshot hotlinking wasn't rendering reliably in the deployed app;
-  RealGM's own player photos (scraped directly from their game log pages)
-  replace them.
-- RealGM's numbers checked out more accurate in spot-checks than this
-  project's earlier ESPN play-by-play text-parsing approach.
+## Two separate data pipelines, on purpose
+| Pipeline | Source | Feeds | Script |
+|---|---|---|---|
+| **Stats / ROY ranking** | RealGM | `season_stats.csv`, `rankings.csv` | `scripts/fetch_realgm.py` |
+| **Shot charts** | ESPN | `shots.csv` | `scripts/fetch_espn_shots.py` |
 
-**Tradeoff, stated plainly**: RealGM's game logs are box scores only - no
-shot x/y coordinates. Switching the *stats* pipeline to RealGM means the
-interactive hex shot chart has no new data source going forward. The shot
-data already collected via the old ESPN-based approach (Peterson's and
-Acuff's first two games each) is kept as a **frozen historical snapshot** in
-`data/processed/shots.csv` so those two charts still render - but nothing
-new will be added there. If shot-chart data matters more than ROY-ranking
-accuracy, that's a separate, parallel pipeline to build back in.
+These are intentionally independent. RealGM has complete, accurate box
+scores (minutes, both rebound types, steals, blocks, turnovers, fouls) and
+real player photos, which is what the ROY formula and player cards need -
+but RealGM has no shot x/y coordinates anywhere. ESPN's play-by-play does
+(or at least has distance/type text to estimate from), so shot charts stay
+on the older ESPN-based pipeline while everything else moved to RealGM.
+Both run on the same schedule (see the GitHub Action) and write to
+completely separate files, so a problem in one never affects the other.
 
 ## The ROY scoring formula (v2 - research-informed)
 Set in `app/roy_score.py`. The original version weighted PPG/FG%/APG/RPG
@@ -69,26 +62,28 @@ GmSc = PTS + 0.4*FGM - 0.7*FGA - 0.4*(FTA-FTM) + 0.7*ORB + 0.3*DRB
 ## Project structure
 ```
 data/
-  rookies.json                    # roster config: name, team, draft pick, RealGM IDs, photo URL
+  rookies.json                    # roster config: name, team, draft pick, RealGM IDs/photo, ESPN team-match/summer-league-site config
   raw/
     rookie_boxscores.csv          # full box-score line per game, all 10 rookies, scraped from RealGM
-    rookie_shots.csv              # FROZEN historical shot data (Peterson + Acuff only, ESPN-era)
+    rookie_shots.csv              # shot-by-shot data, all 10 rookies, scraped from ESPN
   processed/
-    shots.csv                     # frozen shot data passthrough (for the 2 existing shot charts)
+    shots.csv                     # unified shot data the shot charts read from
     season_stats.csv              # one row per rookie: PPG/RPG/APG/SPG/BPG/TS%/GameScore/games
     rankings.csv                  # season_stats + computed ROY score, sorted
-  processed_realgm_games.json     # dedup state: which RealGM boxscore URLs have already been ingested
+  processed_realgm_games.json     # dedup state: which RealGM boxscore URLs already ingested
+  processed_espn_shot_games.json  # dedup state: which ESPN games already ingested for shots
 app/
   Home.py                         # hub page: ranked top 10 list (Streamlit entrypoint)
   player_profile.py               # shared rendering logic - every rookie's page calls this
   pages/                          # one thin file per rookie (Streamlit's multipage convention)
-  stats.py                        # legacy shot-based stat calculator (still used by the 2 frozen shot charts)
+  stats.py                        # shot-based stat calculator (FG%/3FG%/FT%) for the player card
   roy_score.py                    # the v2 weighting formula + Game Score/TS% computation
 scripts/
-  fetch_realgm.py                 # fully automated: scrapes box scores + photos for all 10 from RealGM
+  fetch_realgm.py                 # RealGM pipeline: box scores + photos for all 10
+  fetch_espn_shots.py              # ESPN pipeline: shot locations for all 10 (separate from stats)
   fetch_nba_games.py               # nba_api pull for real NBA season (Darryn Peterson only so far)
-  fetch_summer_league.py           # manual CSV fallback (legacy, shot-based schema)
-  build_dataset.py                 # merges everything, computes rankings
+  fetch_summer_league.py           # manual CSV fallback for shot data (legacy schema)
+  build_dataset.py                 # merges both pipelines' outputs, computes rankings
 ```
 
 ## Data source notes (read before you trust this blindly)

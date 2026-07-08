@@ -25,7 +25,7 @@ st.set_page_config(page_title="2026 Rookie of the Year Tracker", layout="wide")
 st.title("🏆 2026 Rookie of the Year Tracker")
 st.caption(
     "Tracking the top 10 picks of the 2026 NBA Draft, ranked by a custom-weighted "
-    "score: Scoring (40%) → Efficiency (30%) → Playmaking (20%) → Rebounding (10%). "
+    "score: Production (35%) → Game Score (30%) → Availability (20%) → Efficiency (15%). "
     "Click a rookie in the sidebar for their full shot chart and role breakdown."
 )
 st.divider()
@@ -81,8 +81,8 @@ else:
                 <div style="color:#8a99a8; font-size:11px;">PPG</div>
               </div>
               <div style="text-align:center; padding:0 14px;">
-                <div style="color:white; font-size:20px; font-weight:800;">{row['fg_pct']}%</div>
-                <div style="color:#8a99a8; font-size:11px;">FG%</div>
+                <div style="color:white; font-size:20px; font-weight:800;">{row['ts_pct']}%</div>
+                <div style="color:#8a99a8; font-size:11px;">TS%</div>
               </div>
               <div style="text-align:center; padding:0 14px;">
                 <div style="color:white; font-size:20px; font-weight:800;">{row['rpg']}</div>
@@ -91,6 +91,10 @@ else:
               <div style="text-align:center; padding:0 14px;">
                 <div style="color:white; font-size:20px; font-weight:800;">{row['apg']}</div>
                 <div style="color:#8a99a8; font-size:11px;">APG</div>
+              </div>
+              <div style="text-align:center; padding:0 14px;">
+                <div style="color:white; font-size:20px; font-weight:800;">{row['avg_game_score']}</div>
+                <div style="color:#8a99a8; font-size:11px;">Game Score</div>
               </div>
               <div style="text-align:center; padding:0 14px; background:#F58426;
                           border-radius:8px; min-width:70px;">
@@ -105,7 +109,7 @@ else:
     st.divider()
     st.caption(
         "ROY score is normalized *within this group of 10* (not vs. the whole league), "
-        "so scores shift slightly as data updates for everyone. Rookies with 0 games "
-        "get a neutral baseline for stat categories no one has data in yet, rather than "
-        "being penalized to zero. See app/roy_score.py to change the weighting yourself."
+        "so scores shift slightly as data updates for everyone. Formula: Production "
+        "(PPG+RPG+APG+SPG+BPG) 35% + Game Score 30% + Availability (games played) 20% "
+        "+ True Shooting % 15%. See app/roy_score.py to change the weighting yourself."
     )
