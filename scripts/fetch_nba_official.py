@@ -49,10 +49,15 @@ IMPORTANT CAVEATS - read before trusting this blindly:
 - stats.nba.com is known to rate-limit/reject requests without realistic
   browser-like headers; nba_api handles this internally, but if every
   request times out or 403s, that's the likely cause.
-- This is designed to be the PREFERRED source when it has data for a
-  player (see build_dataset.py) - RealGM remains the fallback stats source
-  for players/games this doesn't cover, and ESPN remains a fallback for
-  headshots specifically if a player has no NBA.com PLAYER_ID yet.
+- This is used as a BONUS/OPTIONAL top-up in build_dataset.py, only for
+  rookies RealGM's scrape doesn't already cover - stats.nba.com is known to
+  reject requests from cloud/datacenter IPs (a common real-world limitation
+  of `nba_api` in CI environments like GitHub Actions), so it can't be
+  relied on as the primary source the way a plain requests+BeautifulSoup
+  scrape against a server-rendered site (RealGM) can. See
+  medium.com/analytics-vidhya/web-scraping-nba-data-with-pandas-
+  beautifulsoup-and-regex-pt-1-e3d73679950a for the technique RealGM's
+  scraper (fetch_realgm.py) is based on.
 
 Usage:
     python scripts/fetch_nba_official.py
