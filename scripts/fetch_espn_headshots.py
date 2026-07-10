@@ -1,5 +1,5 @@
 """
-SCRAPER 3 of 3: Profile photos - ESPN headshots for all 10 rookies.
+SCRAPER 3 of 3: Profile photos - ESPN headshots for all 60 rookies.
 
 This is one of three independent, single-purpose scrapers:
   1. fetch_realgm.py         <- box-score stats (RealGM)
@@ -25,7 +25,7 @@ are finalized) will come back not-found until a later run.
 IMPORTANT CAVEAT: this could not be tested against the live ESPN API from
 the sandbox that built it (network restricted to package registries only) -
 the first real run is the actual test. data/rookies.json already has
-manually-verified espn_id/headshot_url for all 10 as of when this was
+manually-verified espn_id/headshot_url for the full draft class as of when this was
 written, so this script's main value going forward is future rookies added
 to the roster, or catching a case where ESPN's ID for someone changes.
 

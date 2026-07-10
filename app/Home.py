@@ -1,7 +1,7 @@
 """
 Rookie of the Year Tracker - Home hub.
 
-Shows the top 10 tracked rookies ranked by a custom-weighted ROY score.
+Shows the top 60 tracked rookies (the full 2026 draft class) ranked by a custom-weighted ROY score.
 Click into the sidebar pages for each rookie's full profile (shot chart,
 role breakdown - identical layout for every player, just their own data).
 
@@ -24,7 +24,7 @@ st.set_page_config(page_title="2026 Rookie of the Year Tracker", layout="wide")
 
 st.title("🏆 2026 Rookie of the Year Tracker")
 st.caption(
-    "Tracking the top 10 picks of the 2026 NBA Draft, ranked by a custom-weighted "
+    "Tracking the full 2026 NBA Draft class (all 60 picks), ranked by a custom-weighted "
     "score: Production (35%) → Game Score (30%) → Availability (20%) → Efficiency (15%). "
     "Click a rookie in the sidebar for their full shot chart and role breakdown."
 )

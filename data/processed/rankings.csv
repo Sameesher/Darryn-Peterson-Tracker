@@ -1,11 +1,61 @@
-name,team,draft_pick,games,ppg,rpg,apg,spg,bpg,ts_pct,avg_game_score,production_raw,production_score,game_score_score,availability_score,efficiency_score,roy_score
-Darryn Peterson,Utah Jazz,2,2,26.5,3.5,7.0,1.0,1.0,69.7,19.5,39.0,100.0,100.0,100.0,100.0,100.0
-Darius Acuff Jr.,Sacramento Kings,7,2,23.5,2.0,3.5,1.0,1.0,47.1,11.4,31.0,79.48717948717949,58.46153846153847,100.0,67.57532281205165,75.5
-AJ Dybantsa,Washington Wizards,1,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Cameron Boozer,Memphis Grizzlies,3,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Keaton Wagler,LA Clippers,5,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Caleb Wilson,Chicago Bulls,4,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Mikel Brown Jr.,Brooklyn Nets,6,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Kingston Flemings,Atlanta Hawks,8,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Morez Johnson Jr.,Dallas Mavericks,9,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Brayden Burries,Milwaukee Bucks,10,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+name,team,draft_pick,games,ppg,rpg,apg,spg,bpg,ts_pct,avg_game_score,source,production_raw,production_score,game_score_score,availability_score,efficiency_score,roy_score
+Darryn Peterson,Utah Jazz,2,2,26.5,3.5,7.0,1.0,1.0,69.7,19.5,realgm,39.0,100.0,100.0,100.0,100.0,100.0
+Darius Acuff Jr.,Sacramento Kings,7,2,23.5,2.0,3.5,1.0,1.0,47.1,11.4,realgm,31.0,79.48717948717949,58.46153846153847,100.0,67.57532281205165,75.5
+Cameron Boozer,Memphis Grizzlies,3,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+AJ Dybantsa,Washington Wizards,1,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Caleb Wilson,Chicago Bulls,4,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Keaton Wagler,LA Clippers,5,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Mikel Brown Jr.,Brooklyn Nets,6,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Kingston Flemings,Atlanta Hawks,8,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Morez Johnson Jr.,Dallas Mavericks,9,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Brayden Burries,Milwaukee Bucks,10,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Yaxel Lendeborg,Golden State Warriors,11,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Aday Mara,Oklahoma City Thunder,12,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Nate Ament,Milwaukee Bucks,13,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Hannes Steinbach,Charlotte Hornets,14,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Dailyn Swain,Chicago Bulls,15,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Bennett Stirtz,Oklahoma City Thunder,16,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Ebuka Okorie,Detroit Pistons,17,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Christian Anderson Jr.,Charlotte Hornets,18,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Allen Graves,Toronto Raptors,19,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Jayden Quaintance,San Antonio Spurs,20,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Karim Lopez,Memphis Grizzlies,21,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Labaron Philon Jr.,Philadelphia 76ers,22,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Zuby Ejiofor,Atlanta Hawks,23,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Cameron Carr,Los Angeles Lakers,24,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Sergio De Larrea,Dallas Mavericks,25,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Tarris Reed Jr.,San Antonio Spurs,26,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Chris Cenac Jr.,Boston Celtics,27,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Joshua Jefferson,Minnesota Timberwolves,28,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Alex Karaban,Sacramento Kings,29,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Koa Peat,Phoenix Suns,30,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Bruce Thornton,Houston Rockets,31,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Richie Saunders,Memphis Grizzlies,32,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Isaiah Evans,Brooklyn Nets,33,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Meleek Thomas,Cleveland Cavaliers,34,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Trevon Brazile,Denver Nuggets,35,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Baba Miller,LA Clippers,36,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Ryan Conwell,Miami Heat,37,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Braden Smith,Indiana Pacers,38,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Jack Kayil,New York Knicks,39,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Dillon Mitchell,Boston Celtics,40,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Otega Oweh,Oklahoma City Thunder,41,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Ja'Kobi Gillespie,San Antonio Spurs,42,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Tyler Bilodeau,Brooklyn Nets,43,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Maliq Brown,San Antonio Spurs,44,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Emanuel Sharp,Sacramento Kings,45,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Felix Okpara,Washington Wizards,46,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Tyler Nickel,New York Knicks,47,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Tobi Lawal,Dallas Mavericks,48,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Bryce Hopkins,Denver Nuggets,49,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Jaden Bradley,Toronto Raptors,50,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Izaiyah Nelson,Orlando Magic,51,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Henri Veesaar,Atlanta Hawks,52,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Ugonna Onyenso,Detroit Pistons,53,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Lajae Jones,Golden State Warriors,54,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Nick Martinelli,LA Clippers,55,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Vsevolod Ishchenko,Dallas Mavericks,56,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Narcisse N'Goy,LA Clippers,57,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Jaron Pierre Jr.,New Orleans Pelicans,58,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Trey Kaufman-Renn,Minnesota Timberwolves,59,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0
+Malique Lewis,Milwaukee Bucks,60,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,none,0.0,0.0,0.0,0.0,0.0,0.0

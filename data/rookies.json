@@ -8,8 +8,14 @@
     "realgm_id": "186435",
     "espn_id": "5142718",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142718.png",
-    "espn_team_name_matches": ["Washington Wizards", "Wizards"],
-    "summer_league_slugs": ["nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Washington Wizards",
+      "Wizards"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Darryn Peterson",
@@ -20,8 +26,15 @@
     "realgm_id": "196886",
     "espn_id": "5041955",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041955.png",
-    "espn_team_name_matches": ["Utah Jazz", "Jazz"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Utah Jazz",
+      "Jazz"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Cameron Boozer",
@@ -32,8 +45,15 @@
     "realgm_id": "184287",
     "espn_id": "5041935",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5041935.png",
-    "espn_team_name_matches": ["Memphis Grizzlies", "Grizzlies"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Memphis Grizzlies",
+      "Grizzlies"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Caleb Wilson",
@@ -44,8 +64,14 @@
     "realgm_id": "200430",
     "espn_id": "5095151",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5095151.png",
-    "espn_team_name_matches": ["Chicago Bulls", "Bulls"],
-    "summer_league_slugs": ["nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Chicago Bulls",
+      "Bulls"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Keaton Wagler",
@@ -56,8 +82,14 @@
     "realgm_id": "242991",
     "espn_id": "5254165",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5254165.png",
-    "espn_team_name_matches": ["LA Clippers", "Los Angeles Clippers", "Clippers"],
-    "summer_league_slugs": ["nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "LA Clippers",
+      "Clippers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Mikel Brown Jr.",
@@ -68,8 +100,15 @@
     "realgm_id": "198014",
     "espn_id": "5101761",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5101761.png",
-    "espn_team_name_matches": ["Brooklyn Nets", "Nets"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Brooklyn Nets",
+      "Nets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Darius Acuff Jr.",
@@ -80,8 +119,15 @@
     "realgm_id": "216187",
     "espn_id": "5142620",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5142620.png",
-    "espn_team_name_matches": ["Sacramento Kings", "Kings"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Sacramento Kings",
+      "Kings"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Kingston Flemings",
@@ -92,8 +138,15 @@
     "realgm_id": "216043",
     "espn_id": "5149077",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5149077.png",
-    "espn_team_name_matches": ["Atlanta Hawks", "Hawks"],
-    "summer_league_slugs": ["nba-summer-utah", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Atlanta Hawks",
+      "Hawks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Morez Johnson Jr.",
@@ -104,8 +157,14 @@
     "realgm_id": "194003",
     "espn_id": "4873153",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/4873153.png",
-    "espn_team_name_matches": ["Dallas Mavericks", "Mavericks"],
-    "summer_league_slugs": ["nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Dallas Mavericks",
+      "Mavericks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   },
   {
     "name": "Brayden Burries",
@@ -116,7 +175,924 @@
     "realgm_id": "200247",
     "espn_id": "5082206",
     "headshot_url": "https://a.espncdn.com/i/headshots/nba/players/full/5082206.png",
-    "espn_team_name_matches": ["Milwaukee Bucks", "Bucks"],
-    "summer_league_slugs": ["nba-summer-california", "nba-summer-las-vegas"]
+    "espn_team_name_matches": [
+      "Milwaukee Bucks",
+      "Bucks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Yaxel Lendeborg",
+    "draft_pick": 11,
+    "college": "Michigan",
+    "team": "Golden State Warriors",
+    "realgm_slug": "Yaxel-Lendeborg",
+    "realgm_id": "177627",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Golden State Warriors",
+      "Warriors"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Aday Mara",
+    "draft_pick": 12,
+    "college": "Michigan",
+    "team": "Oklahoma City Thunder",
+    "realgm_slug": "Aday-Mara",
+    "realgm_id": "177830",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Oklahoma City Thunder",
+      "Thunder"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Nate Ament",
+    "draft_pick": 13,
+    "college": "Tennessee",
+    "team": "Milwaukee Bucks",
+    "realgm_slug": "Nate-Ament",
+    "realgm_id": "216549",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Milwaukee Bucks",
+      "Bucks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Hannes Steinbach",
+    "draft_pick": 14,
+    "college": "Washington",
+    "team": "Charlotte Hornets",
+    "realgm_slug": "Hannes-Steinbach",
+    "realgm_id": "218597",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Charlotte Hornets",
+      "Hornets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Dailyn Swain",
+    "draft_pick": 15,
+    "college": "Texas",
+    "team": "Chicago Bulls",
+    "realgm_slug": "Dailyn-Swain",
+    "realgm_id": "192066",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Chicago Bulls",
+      "Bulls"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Bennett Stirtz",
+    "draft_pick": 16,
+    "college": "Iowa",
+    "team": "Oklahoma City Thunder",
+    "realgm_slug": "Bennett-Stirtz",
+    "realgm_id": "201012",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Oklahoma City Thunder",
+      "Thunder"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Ebuka Okorie",
+    "draft_pick": 17,
+    "college": "Stanford",
+    "team": "Detroit Pistons",
+    "realgm_slug": "Ebuka-Okorie",
+    "realgm_id": "193635",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Detroit Pistons",
+      "Pistons"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Christian Anderson Jr.",
+    "draft_pick": 18,
+    "college": "Texas Tech",
+    "team": "Charlotte Hornets",
+    "realgm_slug": "Christian-Anderson-Jr",
+    "realgm_id": "187435",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Charlotte Hornets",
+      "Hornets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Allen Graves",
+    "draft_pick": 19,
+    "college": "Santa Clara",
+    "team": "Toronto Raptors",
+    "realgm_slug": "Allen-Graves",
+    "realgm_id": "217588",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Toronto Raptors",
+      "Raptors"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Jayden Quaintance",
+    "draft_pick": 20,
+    "college": "Kentucky",
+    "team": "San Antonio Spurs",
+    "realgm_slug": "Jayden-Quaintance",
+    "realgm_id": "199617",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "San Antonio Spurs",
+      "Spurs"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Karim Lopez",
+    "draft_pick": 21,
+    "college": "New Zealand Breakers",
+    "team": "Memphis Grizzlies",
+    "realgm_slug": "Karim-Lopez",
+    "realgm_id": "199566",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Memphis Grizzlies",
+      "Grizzlies"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Labaron Philon Jr.",
+    "draft_pick": 22,
+    "college": "Alabama",
+    "team": "Philadelphia 76ers",
+    "realgm_slug": "Labaron-Philon-Jr",
+    "realgm_id": "200450",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Philadelphia 76ers",
+      "76ers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Zuby Ejiofor",
+    "draft_pick": 23,
+    "college": "St. John's",
+    "team": "Atlanta Hawks",
+    "realgm_slug": "Zuby-Ejiofor",
+    "realgm_id": "176053",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Atlanta Hawks",
+      "Hawks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Cameron Carr",
+    "draft_pick": 24,
+    "college": "Baylor",
+    "team": "Los Angeles Lakers",
+    "realgm_slug": "Cameron-Carr",
+    "realgm_id": "196892",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Los Angeles Lakers",
+      "Lakers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Sergio De Larrea",
+    "draft_pick": 25,
+    "college": "Valencia Basket",
+    "team": "Dallas Mavericks",
+    "realgm_slug": "Sergio-De-Larrea",
+    "realgm_id": "175825",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Dallas Mavericks",
+      "Mavericks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Tarris Reed Jr.",
+    "draft_pick": 26,
+    "college": "UConn",
+    "team": "San Antonio Spurs",
+    "realgm_slug": "Tarris-Reed-Jr",
+    "realgm_id": "176072",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "San Antonio Spurs",
+      "Spurs"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Chris Cenac Jr.",
+    "draft_pick": 27,
+    "college": "Houston",
+    "team": "Boston Celtics",
+    "realgm_slug": "Chris-Cenac-Jr",
+    "realgm_id": "198525",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Boston Celtics",
+      "Celtics"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Joshua Jefferson",
+    "draft_pick": 28,
+    "college": "Iowa State",
+    "team": "Minnesota Timberwolves",
+    "realgm_slug": "Joshua-Jefferson",
+    "realgm_id": "151416",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Minnesota Timberwolves",
+      "Timberwolves"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Alex Karaban",
+    "draft_pick": 29,
+    "college": "UConn",
+    "team": "Sacramento Kings",
+    "realgm_slug": "Alex-Karaban",
+    "realgm_id": "151218",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Sacramento Kings",
+      "Kings"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Koa Peat",
+    "draft_pick": 30,
+    "college": "Arizona",
+    "team": "Phoenix Suns",
+    "realgm_slug": "Koa-Peat",
+    "realgm_id": "180367",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Phoenix Suns",
+      "Suns"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Bruce Thornton",
+    "draft_pick": 31,
+    "college": "Ohio State",
+    "team": "Houston Rockets",
+    "realgm_slug": "Bruce-Thornton",
+    "realgm_id": "160212",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Houston Rockets",
+      "Rockets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Richie Saunders",
+    "draft_pick": 32,
+    "college": "BYU",
+    "team": "Memphis Grizzlies",
+    "realgm_slug": "Richie-Saunders",
+    "realgm_id": "139115",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Memphis Grizzlies",
+      "Grizzlies"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Isaiah Evans",
+    "draft_pick": 33,
+    "college": "Duke",
+    "team": "Brooklyn Nets",
+    "realgm_slug": "Isaiah-Evans",
+    "realgm_id": "180095",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Brooklyn Nets",
+      "Nets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Meleek Thomas",
+    "draft_pick": 34,
+    "college": "Arkansas",
+    "team": "Cleveland Cavaliers",
+    "realgm_slug": "Meleek-Thomas",
+    "realgm_id": "196884",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Cleveland Cavaliers",
+      "Cavaliers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Trevon Brazile",
+    "draft_pick": 35,
+    "college": "Arkansas",
+    "team": "Denver Nuggets",
+    "realgm_slug": "Trevon-Brazile",
+    "realgm_id": "175965",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Denver Nuggets",
+      "Nuggets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Baba Miller",
+    "draft_pick": 36,
+    "college": "Cincinnati",
+    "team": "LA Clippers",
+    "realgm_slug": "Baba-Miller",
+    "realgm_id": "165593",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "LA Clippers",
+      "Clippers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Ryan Conwell",
+    "draft_pick": 37,
+    "college": "Louisville",
+    "team": "Miami Heat",
+    "realgm_slug": "Ryan-Conwell",
+    "realgm_id": "199681",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Miami Heat",
+      "Heat"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Braden Smith",
+    "draft_pick": 38,
+    "college": "Purdue",
+    "team": "Indiana Pacers",
+    "realgm_slug": "Braden-Smith",
+    "realgm_id": "182896",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Indiana Pacers",
+      "Pacers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Jack Kayil",
+    "draft_pick": 39,
+    "college": "ALBA Berlin",
+    "team": "New York Knicks",
+    "realgm_slug": "Jack-Kayil",
+    "realgm_id": "197840",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "New York Knicks",
+      "Knicks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Dillon Mitchell",
+    "draft_pick": 40,
+    "college": "St. John's",
+    "team": "Boston Celtics",
+    "realgm_slug": "Dillon-Mitchell",
+    "realgm_id": "176104",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Boston Celtics",
+      "Celtics"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Otega Oweh",
+    "draft_pick": 41,
+    "college": "Kentucky",
+    "team": "Oklahoma City Thunder",
+    "realgm_slug": "Otega-Oweh",
+    "realgm_id": "176073",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Oklahoma City Thunder",
+      "Thunder"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Ja'Kobi Gillespie",
+    "draft_pick": 42,
+    "college": "Tennessee",
+    "team": "San Antonio Spurs",
+    "realgm_slug": "JaKobi-Gillespie",
+    "realgm_id": "182785",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "San Antonio Spurs",
+      "Spurs"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Tyler Bilodeau",
+    "draft_pick": 43,
+    "college": "UCLA",
+    "team": "Brooklyn Nets",
+    "realgm_slug": "Tyler-Bilodeau",
+    "realgm_id": "192041",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Brooklyn Nets",
+      "Nets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Maliq Brown",
+    "draft_pick": 44,
+    "college": "Duke",
+    "team": "San Antonio Spurs",
+    "realgm_slug": "Maliq-Brown",
+    "realgm_id": "176075",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "San Antonio Spurs",
+      "Spurs"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Emanuel Sharp",
+    "draft_pick": 45,
+    "college": "Houston",
+    "team": "Sacramento Kings",
+    "realgm_slug": "Emanuel-Sharp",
+    "realgm_id": "138743",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Sacramento Kings",
+      "Kings"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Felix Okpara",
+    "draft_pick": 46,
+    "college": "Tennessee",
+    "team": "Washington Wizards",
+    "realgm_slug": "Felix-Okpara",
+    "realgm_id": "150125",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Washington Wizards",
+      "Wizards"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Tyler Nickel",
+    "draft_pick": 47,
+    "college": "Vanderbilt",
+    "team": "New York Knicks",
+    "realgm_slug": "Tyler-Nickel",
+    "realgm_id": "176059",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "New York Knicks",
+      "Knicks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Tobi Lawal",
+    "draft_pick": 48,
+    "college": "Virginia Tech",
+    "team": "Dallas Mavericks",
+    "realgm_slug": "Tobi-Lawal",
+    "realgm_id": "202405",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Dallas Mavericks",
+      "Mavericks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Bryce Hopkins",
+    "draft_pick": 49,
+    "college": "St. John's",
+    "team": "Denver Nuggets",
+    "realgm_slug": "Bryce-Hopkins",
+    "realgm_id": "162045",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Denver Nuggets",
+      "Nuggets"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Jaden Bradley",
+    "draft_pick": 50,
+    "college": "Arizona",
+    "team": "Toronto Raptors",
+    "realgm_slug": "Jaden-Bradley",
+    "realgm_id": "117540",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Toronto Raptors",
+      "Raptors"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Izaiyah Nelson",
+    "draft_pick": 51,
+    "college": "South Florida",
+    "team": "Orlando Magic",
+    "realgm_slug": "Izaiyah-Nelson",
+    "realgm_id": "201957",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Orlando Magic",
+      "Magic"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Henri Veesaar",
+    "draft_pick": 52,
+    "college": "North Carolina",
+    "team": "Atlanta Hawks",
+    "realgm_slug": "Henri-Veesaar",
+    "realgm_id": "147126",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Atlanta Hawks",
+      "Hawks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-utah",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Ugonna Onyenso",
+    "draft_pick": 53,
+    "college": "Virginia",
+    "team": "Detroit Pistons",
+    "realgm_slug": "Ugonna-Onyenso",
+    "realgm_id": "192946",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Detroit Pistons",
+      "Pistons"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Lajae Jones",
+    "draft_pick": 54,
+    "college": "Florida State",
+    "team": "Golden State Warriors",
+    "realgm_slug": "Lajae-Jones",
+    "realgm_id": "205948",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Golden State Warriors",
+      "Warriors"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Nick Martinelli",
+    "draft_pick": 55,
+    "college": "Northwestern",
+    "team": "LA Clippers",
+    "realgm_slug": "Nick-Martinelli",
+    "realgm_id": "200150",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "LA Clippers",
+      "Clippers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Vsevolod Ishchenko",
+    "draft_pick": 56,
+    "college": "Lokomotiv Kuban",
+    "team": "Dallas Mavericks",
+    "realgm_slug": "Vsevolod-Ishchenko",
+    "realgm_id": "222542",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Dallas Mavericks",
+      "Mavericks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Narcisse N'Goy",
+    "draft_pick": 57,
+    "college": "Poitiers",
+    "team": "LA Clippers",
+    "realgm_slug": "Narcisse-NGoy",
+    "realgm_id": "187892",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "LA Clippers",
+      "Clippers"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Jaron Pierre Jr.",
+    "draft_pick": 58,
+    "college": "Southern Methodist",
+    "team": "New Orleans Pelicans",
+    "realgm_slug": "Jaron-Pierre-Jr",
+    "realgm_id": "171098",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "New Orleans Pelicans",
+      "Pelicans"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Trey Kaufman-Renn",
+    "draft_pick": 59,
+    "college": "Purdue",
+    "team": "Minnesota Timberwolves",
+    "realgm_slug": "Trey-Kaufman-Renn",
+    "realgm_id": "152727",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Minnesota Timberwolves",
+      "Timberwolves"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
+  },
+  {
+    "name": "Malique Lewis",
+    "draft_pick": 60,
+    "college": "South East Melbourne",
+    "team": "Milwaukee Bucks",
+    "realgm_slug": "Malique-Lewis",
+    "realgm_id": "189653",
+    "espn_id": null,
+    "headshot_url": null,
+    "espn_team_name_matches": [
+      "Milwaukee Bucks",
+      "Bucks"
+    ],
+    "summer_league_slugs": [
+      "nba-summer-california",
+      "nba-summer-las-vegas"
+    ],
+    "nba_player_id": null
   }
 ]

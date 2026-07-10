@@ -1,5 +1,5 @@
 """
-SCRAPER 1 of 3: Stats pipeline - RealGM box scores for all 10 rookies.
+SCRAPER 1 of 3: Stats pipeline - RealGM box scores for all 60 rookies.
 
 This is one of three independent, single-purpose scrapers:
   1. fetch_realgm.py         <- this file: box-score stats (RealGM)

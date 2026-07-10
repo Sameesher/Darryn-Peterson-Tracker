@@ -26,7 +26,7 @@ This version replaces the original 4-stat (PPG/FG%/APG/RPG) formula with:
    purpose, since research suggests voters historically weight this less
    than raw production.
 
-All four are normalized 0-100 *within this specific group of 10 rookies*
+All four are normalized 0-100 *within this full draft class (60 rookies)*
 (not against the whole league), same as before - this is a relative
 comparison tool for this draft class, not an absolute grade.
 """
