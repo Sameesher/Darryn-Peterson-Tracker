@@ -27,51 +27,59 @@ Picks 11-60 include the rest of Round 1 (Yaxel Lendeborg, Aday Mara, Nate
 Ament, etc.) and all of Round 2, with final team destinations resolved for
 every post-draft trade RealGM had recorded as of when this was built.
 
-## RealGM + ESPN are primary; NBA.com/stats.nba.com is a bonus, not relied on
+## NBA.com/stats.nba.com (via nba_api) is the primary pipeline; RealGM/ESPN are fallbacks
 | # | Script | Source | Writes to |
 |---|---|---|---|
-| ★1 | `scripts/fetch_realgm.py` | **RealGM** | `data/raw/rookie_boxscores.csv` - **primary stats** |
-| ★2 | `scripts/fetch_espn_shots.py` | **ESPN** | `data/raw/rookie_shots.csv` - **primary shot data** |
-| ★3 | `scripts/fetch_espn_headshots.py` | **ESPN** | `rookies.json` - **primary headshots** |
-| 4 | `scripts/fetch_nba_official.py` | NBA.com / stats.nba.com | `rookie_nba_official_stats.csv` + `rookies.json` - **bonus only** |
-| 5 | `scripts/fetch_nba_shotchart.py` | NBA.com / stats.nba.com | `data/raw/rookie_shots.csv` - **bonus only** |
+| ★1 | `scripts/fetch_nba_official.py` | **NBA.com / stats.nba.com** | `rookie_nba_official_stats.csv` + `rookies.json` (`nba_player_id`) - **primary stats** |
+| ★2 | `scripts/fetch_nba_shotchart.py` | **NBA.com / stats.nba.com** | `data/raw/rookie_shots.csv` - **primary shot data**, real tracked coordinates |
+| ★3 | `scripts/fetch_nba_headshots.py` | **NBA.com** | `data/headshots/{id}.png` + `rookies.json` (`headshot_local_path`) - **primary headshots, actually downloaded** |
+| 4 | `scripts/fetch_realgm.py` | RealGM | `data/raw/rookie_boxscores.csv` - fallback stats |
+| 5 | `scripts/fetch_espn_shots.py` | ESPN | `data/raw/rookie_shots.csv` - fallback shot data |
+| 6 | `scripts/fetch_espn_headshots.py` | ESPN | `rookies.json` (`headshot_url`) - fallback headshots (remote link only) |
 
-**Why RealGM/ESPN are primary and NBA.com is demoted to a bonus**: nba.com's
-visible pages (e.g. `nba.com/2026-summer-league-vegas-player-stats`, or the
-shot-chart page at `nba.com/game/{slug}/game-charts`) render "No data
-available" in their raw HTML - the real data loads via a client-side call
-to `stats.nba.com`'s JSON API, which `nba_api` (already a dependency) can
-reach directly. In principle that's the most "official" source available.
-In practice, `stats.nba.com` is well known for aggressively blocking
-requests from non-browser clients and cloud/datacenter IPs - a common,
-well-documented real-world failure of `nba_api` specifically when run from
-CI environments like GitHub Actions. RealGM and ESPN don't have this
-problem: RealGM is scraped with plain `requests` + `BeautifulSoup` against
-genuinely server-rendered HTML (the same technique as [this Basketball-
-Reference scraping tutorial](https://medium.com/analytics-vidhya/web-scraping-nba-data-with-pandas-beautifulsoup-and-regex-pt-1-e3d73679950a) -
-Basketball-Reference itself doesn't cover Summer League, so RealGM is the
-same idea aimed at a source that does), and ESPN's `site.api.espn.com`
-endpoints have been reliable in practice throughout this project. So
-`build_dataset.py` now checks RealGM first, and only reaches for the
-NBA.com bonus data if RealGM has nothing for that rookie - the reverse of
-how this was set up previously.
+`build_dataset.py` checks NBA.com's own numbers first for every rookie, and
+only falls back to RealGM/ESPN for anyone the official source doesn't cover
+yet. Run scripts 1-3 in order - steps 2 and 3 both need the `nba_player_id`
+that step 1 finds and writes into `rookies.json`.
 
-`fetch_nba_official.py`/`fetch_nba_shotchart.py` are still worth running:
-`continue-on-error` is doing real work in the GitHub Action here - these
-two are *expected* to sometimes fail outright (a captured 403 from
-stats.nba.com, a timeout, etc.), and that's fine, since they're bonus data
-rather than something the rankings depend on. When they do succeed, they
-add real tracked shot coordinates:
-- `fetch_nba_official.py` uses `LeagueDashPlayerStats` (`SeasonType="Summer
-  League"`) - one bulk call returns every player in the whole Summer
-  League, filtered down to the 60 tracked rookies. It also captures each
-  matched rookie's NBA.com `PLAYER_ID` and builds a headshot URL from
-  nba.com's predictable CDN pattern
-  (`cdn.nba.com/headshots/nba/latest/1040x760/{id}.png`).
+**How the pipeline works, end to end:**
+- `fetch_nba_official.py` calls `LeagueDashPlayerStats` with
+  `SeasonType="Summer League"` - one bulk call returns every player in the
+  whole Summer League, filtered down to the 60 tracked rookies. It also
+  captures each matched rookie's NBA.com `PLAYER_ID` from that same
+  response.
 - `fetch_nba_shotchart.py` uses `PlayerGameLogs` to find each rookie's
-  individual games, then `ShotChartDetail` per game for **real tracked X/Y
-  shot coordinates** - more precise than ESPN's distance/type text-estimate
-  fallback, when it's reachable.
+  individual games (by their `nba_player_id`), then `ShotChartDetail` per
+  game for **real tracked X/Y shot coordinates** - genuinely measured
+  locations, not a distance/type text estimate.
+- `fetch_nba_headshots.py` **actually downloads the image file** (not just
+  a hotlink) from nba.com's predictable CDN pattern
+  (`cdn.nba.com/headshots/nba/latest/1040x760/{id}.png`) using each
+  rookie's `nba_player_id`, and saves it to `data/headshots/{id}.png`. The
+  dashboard embeds these as base64 data URIs at render time (see
+  `player_profile.py`'s `get_headshot_html()`), so a photo, once
+  downloaded, doesn't depend on any external URL being reachable when
+  someone views the app - only ESPN's fallback headshots (for rookies with
+  no `nba_player_id` yet) remain a live hotlink.
+
+**Why nba.com needed dedicated scrapers instead of just visiting the
+site**: the visible pages (e.g. `nba.com/2026-summer-league-vegas-player-
+stats`, or the shot-chart page at `nba.com/game/{slug}/game-charts`)
+render "No data available" in their raw HTML - the real tables/shot plots
+load via a client-side call to `stats.nba.com`'s JSON API. These scripts
+hit that same backend directly via `nba_api` instead of scraping a page
+that has nothing in it server-side.
+
+**Note on reliability**: `stats.nba.com` is known to sometimes reject
+requests from non-browser clients or cloud/datacenter IPs (a real-world
+`nba_api` limitation some CI environments hit). `continue-on-error` in the
+GitHub Action means a failure here doesn't block the fallback scripts from
+running - RealGM (scraped with plain `requests` + `BeautifulSoup` against
+genuinely server-rendered HTML, the same technique as
+[this scraping tutorial](https://medium.com/analytics-vidhya/web-scraping-nba-data-with-pandas-beautifulsoup-and-regex-pt-1-e3d73679950a),
+just aimed at RealGM since that tutorial's own target, Basketball-
+Reference, doesn't cover Summer League) and ESPN pick up whatever the
+primary pipeline misses.
 
 ## The ROY scoring formula (v2 - research-informed)
 Set in `app/roy_score.py`. The original version weighted PPG/FG%/APG/RPG
@@ -102,30 +110,35 @@ GmSc = PTS + 0.4*FGM - 0.7*FGA - 0.4*(FTA-FTM) + 0.7*ORB + 0.3*DRB
 ## Project structure
 ```
 data/
-  rookies.json                    # roster config: name, team, draft pick, RealGM IDs, ESPN id/headshot
+  rookies.json                    # roster config: name, team, draft pick, nba_player_id, RealGM/ESPN IDs, headshot paths
+  headshots/                      # downloaded headshot image files, {nba_player_id}.png (scraper 3)
   raw/
-    rookie_boxscores.csv          # full box-score line per game, all 60 rookies (scraper 1: RealGM)
-    rookie_shots.csv              # shot-by-shot data, all 60 rookies (scraper 2: ESPN)
+    rookie_nba_official_stats.csv # season averages, all 60 rookies (scraper 1: NBA.com)
+    rookie_boxscores.csv          # full box-score line per game (fallback: RealGM)
+    rookie_shots.csv              # shot-by-shot data (scraper 2: NBA.com, + ESPN fallback)
   processed/
     shots.csv                     # unified shot data the shot charts read from
-    season_stats.csv              # one row per rookie: PPG/RPG/APG/SPG/BPG/TS%/GameScore/games
+    season_stats.csv              # one row per rookie: PPG/RPG/APG/SPG/BPG/TS%/GameScore/games/source
     rankings.csv                  # season_stats + computed ROY score, sorted
-  processed_realgm_games.json     # scraper 1's dedup state (RealGM boxscore URLs already ingested)
-  processed_espn_shot_games.json  # scraper 2's dedup state (ESPN games already ingested for shots)
+  processed_nba_shot_games.json   # scraper 2's dedup state (NBA.com games already ingested for shots)
+  processed_realgm_games.json     # fallback scraper's dedup state (RealGM boxscore URLs already ingested)
+  processed_espn_shot_games.json  # fallback scraper's dedup state (ESPN games already ingested for shots)
 app/
   Home.py                         # hub page: ranked list of the full draft class (Streamlit entrypoint)
-  player_profile.py               # shared rendering logic - every rookie's page calls this
+  player_profile.py               # shared rendering logic - every rookie's page calls this, incl. get_headshot_html()
   pages/                          # one thin file per rookie (Streamlit's multipage convention)
   stats.py                        # shot-based helper (used only by the scatter/legacy view)
   roy_score.py                    # the v2 weighting formula + Game Score/TS% computation
 scripts/
-  fetch_nba_official.py           # PREFERRED: official NBA.com stats via nba_api (SeasonType="Summer League")
-  fetch_realgm.py                 # scraper 1: box scores + advanced-stat inputs (RealGM, fallback)
-  fetch_espn_shots.py             # scraper 2: shot locations (ESPN)
-  fetch_espn_headshots.py         # scraper 3: profile photos (ESPN)
+  fetch_nba_official.py           # scraper 1 (PRIMARY): NBA.com stats + player IDs (LeagueDashPlayerStats)
+  fetch_nba_shotchart.py          # scraper 2 (PRIMARY): NBA.com shot charts (ShotChartDetail)
+  fetch_nba_headshots.py          # scraper 3 (PRIMARY): downloads actual NBA.com headshot image files
+  fetch_realgm.py                 # fallback stats (RealGM)
+  fetch_espn_shots.py             # fallback shot locations (ESPN)
+  fetch_espn_headshots.py         # fallback headshots, remote link only (ESPN)
   fetch_nba_games.py              # nba_api pull for real NBA season (Darryn Peterson only so far)
   fetch_summer_league.py          # manual CSV fallback for shot data (legacy schema)
-  build_dataset.py                # merges all sources (official > RealGM), computes rankings
+  build_dataset.py                # merges all sources (nba_official > RealGM), computes rankings
 ```
 
 ## Data source notes (read before you trust this blindly)
@@ -183,11 +196,12 @@ scripts/
 ## Running locally
 ```bash
 pip install -r requirements.txt
-python scripts/fetch_realgm.py            # 1. PRIMARY stats
-python scripts/fetch_espn_shots.py        # 2. PRIMARY shot data
-python scripts/fetch_espn_headshots.py    # 3. PRIMARY photos
-python scripts/fetch_nba_official.py      # 4. bonus stats/player IDs/headshots (may fail - that's fine)
-python scripts/fetch_nba_shotchart.py     # 5. bonus shot charts (needs player IDs from step 4)
+python scripts/fetch_nba_official.py      # 1. PRIMARY stats + player IDs
+python scripts/fetch_nba_shotchart.py     # 2. PRIMARY shot charts (needs player IDs from step 1)
+python scripts/fetch_nba_headshots.py     # 3. PRIMARY headshots - downloads actual image files
+python scripts/fetch_realgm.py            # 4. fallback stats
+python scripts/fetch_espn_shots.py        # 5. fallback shot data
+python scripts/fetch_espn_headshots.py    # 6. fallback headshots (remote link only)
 python scripts/build_dataset.py
 streamlit run app/Home.py
 ```

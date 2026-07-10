@@ -4,6 +4,7 @@ page (app/pages/*.py) is a thin wrapper that just calls render_profile(name) -
 this is the ONE place the actual layout/chart code lives, so every rookie's
 page looks identical in style, just with their own data.
 """
+import base64
 import json
 import math
 import os
@@ -179,21 +180,51 @@ def plot_hexbin_interactive(df: pd.DataFrame, title: str, mode: str = "frequency
     return fig
 
 
+def get_headshot_html(rookie_config: dict, size: int = 64) -> str:
+    """
+    Renders a rookie's headshot as an <img> tag, in priority order:
+    1. A locally downloaded image (headshot_local_path, from
+       fetch_nba_headshots.py) - embedded as a base64 data URI so it
+       renders without depending on any external URL being reachable.
+    2. A remote hotlink URL (headshot_url) - fallback for rookies the
+       download script hasn't covered yet.
+    3. A placeholder "?" circle if neither is available.
+    """
+    local_path = rookie_config.get("headshot_local_path")
+    if local_path:
+        full_path = os.path.join(BASE_DIR, local_path)
+        if os.path.exists(full_path):
+            try:
+                with open(full_path, "rb") as f:
+                    b64 = base64.b64encode(f.read()).decode("ascii")
+                return (
+                    f'<img src="data:image/png;base64,{b64}" '
+                    f'style="width:{size}px; height:{size}px; border-radius:50%; '
+                    f'background:white; object-fit:cover;" />'
+                )
+            except Exception:
+                pass  # fall through to URL/placeholder below
+
+    headshot_url = rookie_config.get("headshot_url")
+    if headshot_url:
+        return (
+            f'<img src="{headshot_url}" style="width:{size}px; height:{size}px; '
+            f'border-radius:50%; background:white; object-fit:cover;" />'
+        )
+
+    return (
+        f'<div style="width:{size}px; height:{size}px; border-radius:50%; background:#2a3a4a; '
+        f'display:flex; align-items:center; justify-content:center; color:#8a99a8; '
+        f'font-size:{int(size * 0.375)}px;">?</div>'
+    )
+
+
 def render_player_card(rookie_config: dict, stats: dict):
     name = rookie_config["name"]
     team = rookie_config["team"]
-    headshot_url = rookie_config.get("headshot_url")
+    headshot_html = get_headshot_html(rookie_config, size=64)
     logo_slug = TEAM_LOGO_SLUGS.get(team)
     logo_url = f"https://a.espncdn.com/i/teamlogos/nba/500/{logo_slug}.png" if logo_slug else ""
-
-    headshot_html = (
-        f'<img src="{headshot_url}" style="width:64px; height:64px; border-radius:50%; '
-        f'background:white; object-fit:cover;" />'
-        if headshot_url else
-        '<div style="width:64px; height:64px; border-radius:50%; background:#2a3a4a; '
-        'display:flex; align-items:center; justify-content:center; color:#8a99a8; '
-        'font-size:24px;">?</div>'
-    )
     logo_html = f'<img src="{logo_url}" style="width:48px; height:48px;" />' if logo_url else ""
 
     st.markdown(

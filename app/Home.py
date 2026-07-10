@@ -13,7 +13,7 @@ import os
 import pandas as pd
 import streamlit as st
 
-from player_profile import TEAM_LOGO_SLUGS, load_rookies
+from player_profile import TEAM_LOGO_SLUGS, load_rookies, get_headshot_html
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 RANKINGS_PATH = os.path.join(BASE_DIR, "data", "processed", "rankings.csv")
@@ -37,22 +37,15 @@ if not os.path.exists(RANKINGS_PATH):
     )
 else:
     rankings = pd.read_csv(RANKINGS_PATH)
+    rookies_by_name = {r["name"]: r for r in load_rookies()}
 
     for i, row in rankings.iterrows():
         rank = i + 1
         logo_slug = TEAM_LOGO_SLUGS.get(row["team"])
         logo_url = f"https://a.espncdn.com/i/teamlogos/nba/500/{logo_slug}.png" if logo_slug else ""
 
-        rookie_config = next((r for r in load_rookies() if r["name"] == row["name"]), {})
-        headshot_url = rookie_config.get("headshot_url")
-        headshot_html = (
-            f'<img src="{headshot_url}" style="width:56px; height:56px; border-radius:50%; '
-            f'background:white; object-fit:cover;" />'
-            if headshot_url else
-            '<div style="width:56px; height:56px; border-radius:50%; background:#2a3a4a; '
-            'display:flex; align-items:center; justify-content:center; color:#8a99a8; '
-            'font-size:22px;">?</div>'
-        )
+        rookie_config = rookies_by_name.get(row["name"], {})
+        headshot_html = get_headshot_html(rookie_config, size=56)
         logo_html = f'<img src="{logo_url}" style="width:32px; height:32px;" />' if logo_url else ""
 
         games_note = "" if row["games"] > 0 else (
@@ -108,7 +101,7 @@ else:
 
     st.divider()
     st.caption(
-        "ROY score is normalized *within this group of 10* (not vs. the whole league), "
+        "ROY score is normalized *within this full draft class* (not vs. the whole league), "
         "so scores shift slightly as data updates for everyone. Formula: Production "
         "(PPG+RPG+APG+SPG+BPG) 35% + Game Score 30% + Availability (games played) 20% "
         "+ True Shooting % 15%. See app/roy_score.py to change the weighting yourself."

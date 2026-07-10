@@ -1,37 +1,35 @@
 """
-SCRAPER (official source): NBA.com's own Summer League stats + player IDs,
-via the stats.nba.com JSON API that nba.com's pages themselves call
+SCRAPER 1 of 3 (PRIMARY pipeline): NBA.com's own Summer League stats, via
+the stats.nba.com JSON API that nba.com's pages themselves call
 client-side (the visible nba.com pages, e.g. nba.com/2026-summer-league-
 vegas-player-stats, render "No data available" in raw HTML because the
 table loads via JavaScript after page load - this hits the same backend
 API directly instead of scraping a page that has nothing in it server-side).
 
-Uses `nba_api` (already a dependency) to call LeagueDashPlayerStats with
-SeasonType="Summer League" - one bulk call returns every player across the
-whole Summer League at once, which is filtered down to our 60 tracked
-rookies by name. This is the most "official" data source available for
-this project: it's the same underlying data NBA.com's own site displays,
-not a third-party scrape of ESPN or RealGM.
+This is one of three NBA.com/nba_api scrapers, now the PRIMARY data
+pipeline for this project (previously RealGM/ESPN were primary and this
+was a bonus - reversed per direct instruction to make nba_api the main
+pipeline for all 60 rookies, not just the couple that had been manually
+verified):
+  1. fetch_nba_official.py    <- this file: season stats (LeagueDashPlayerStats)
+  2. fetch_nba_shotchart.py   <- shot locations (ShotChartDetail)
+  3. fetch_nba_headshots.py   <- downloads actual headshot image files (not just URLs)
 
-This script now also captures each matched rookie's NBA.com PLAYER_ID from
-the same response, and writes both an nba.com headshot URL and the raw ID
-back into data/rookies.json - nba.com's headshots are served from a
-predictable CDN pattern (cdn.nba.com/headshots/nba/latest/1040x760/{id}.png)
-once you have the numeric NBA.com person ID, which this response includes
-for free. This makes nba.com the single source for stats, shot charts (see
-fetch_nba_shotchart.py), AND headshots - no ESPN/RealGM scraping needed for
-any rookie this covers.
+Uses `nba_api` to call LeagueDashPlayerStats with SeasonType="Summer
+League" - one bulk call returns every player across the whole Summer
+League at once, which is filtered down to all 60 tracked rookies by name.
 
-Writes to data/raw/rookie_nba_official_stats.csv - one row per rookie per
-Summer League "site" fetched (Salt Lake City, Las Vegas, California
-Classic - see --sites), as PER-GAME AVERAGES (games played, PTS/REB/AST/
-STL/BLK/FGM/FGA/3PM/3PA/FTM/FTA/TOV/PF per game). This is intentionally
-season-total-style data (one row per site, not one row per individual
-game) - Game Score and True Shooting % are both LINEAR functions of the
-underlying box score stats, so computing them from per-game averages gives
-the exact same result as averaging individual per-game values would. If a
-game-by-game breakdown becomes useful later (e.g. a "trend over time"
-chart), this would need PlayerGameLogs instead of LeagueDashPlayerStats.
+This script also captures each matched rookie's NBA.com PLAYER_ID from the
+same response and writes it into data/rookies.json's `nba_player_id`
+field - fetch_nba_headshots.py and fetch_nba_shotchart.py both need this ID
+and should be run after this script.
+
+Writes to data/raw/rookie_nba_official_stats.csv - one row per rookie, as
+PER-GAME AVERAGES (games played, PTS/REB/AST/STL/BLK/FGM/FGA/3PM/3PA/FTM/
+FTA/TOV/PF per game). Game Score and True Shooting % are both LINEAR
+functions of the underlying box score stats, so computing them from
+per-game averages gives the exact same result as averaging individual
+per-game values would.
 
 IMPORTANT CAVEATS - read before trusting this blindly:
 - This could not be tested against the live stats.nba.com API from the
@@ -42,22 +40,15 @@ IMPORTANT CAVEATS - read before trusting this blindly:
   League (e.g. "2026-27" for the summer before the 2026-27 season), which
   matches common nba_api usage, but verify this against the first live
   run's output before trusting it.
-- The nba.com headshot CDN URL pattern (cdn.nba.com/headshots/nba/latest/
-  1040x760/{id}.png) is a well-known, widely-used pattern but was not
-  verified against a live request from this sandbox either - if headshots
-  come back broken, double check this pattern against a known player first.
 - stats.nba.com is known to rate-limit/reject requests without realistic
-  browser-like headers; nba_api handles this internally, but if every
-  request times out or 403s, that's the likely cause.
-- This is used as a BONUS/OPTIONAL top-up in build_dataset.py, only for
-  rookies RealGM's scrape doesn't already cover - stats.nba.com is known to
-  reject requests from cloud/datacenter IPs (a common real-world limitation
-  of `nba_api` in CI environments like GitHub Actions), so it can't be
-  relied on as the primary source the way a plain requests+BeautifulSoup
-  scrape against a server-rendered site (RealGM) can. See
-  medium.com/analytics-vidhya/web-scraping-nba-data-with-pandas-
-  beautifulsoup-and-regex-pt-1-e3d73679950a for the technique RealGM's
-  scraper (fetch_realgm.py) is based on.
+  browser-like headers, and has been reported to block requests from some
+  cloud/datacenter IP ranges. `nba_api` sets reasonable default headers,
+  but if every request times out or 403s in GitHub Actions specifically,
+  that's the likely cause - there's no clean fix for this from a public
+  Action beyond retrying or running from a different network.
+- RealGM (fetch_realgm.py) and ESPN (fetch_espn_shots.py,
+  fetch_espn_headshots.py) remain in the pipeline as fallbacks for any
+  rookie this doesn't cover.
 
 Usage:
     python scripts/fetch_nba_official.py
@@ -169,8 +160,9 @@ def extract_rookie_rows(df, rookies: list) -> list:
 
 
 def update_rookies_with_nba_ids(rookies: list, nba_ids_by_name: dict) -> bool:
-    """Writes nba_player_id + an nba.com headshot URL back into rookies.json
-    for any rookie this run found an ID for. Returns True if anything changed."""
+    """Writes nba_player_id back into rookies.json for any rookie this run
+    found an ID for - fetch_nba_headshots.py and fetch_nba_shotchart.py both
+    read this field. Returns True if anything changed."""
     changed = False
     for rookie in rookies:
         nba_id = nba_ids_by_name.get(rookie["name"])
@@ -178,9 +170,6 @@ def update_rookies_with_nba_ids(rookies: list, nba_ids_by_name: dict) -> bool:
             continue
         if rookie.get("nba_player_id") != nba_id:
             rookie["nba_player_id"] = nba_id
-            rookie["headshot_url"] = (
-                f"https://cdn.nba.com/headshots/nba/latest/1040x760/{nba_id}.png"
-            )
             changed = True
     return changed
 
@@ -222,7 +211,7 @@ def main():
 
     if update_rookies_with_nba_ids(rookies, nba_ids_by_name):
         save_rookies(rookies)
-        print(f"Updated rookies.json with {len(nba_ids_by_name)} nba.com player ID(s)/headshot(s).")
+        print(f"Updated rookies.json with {len(nba_ids_by_name)} nba.com player ID(s).")
 
     print(f"\nDone. Wrote {len(rows)} rookie row(s) -> {OUTPUT_PATH}")
 

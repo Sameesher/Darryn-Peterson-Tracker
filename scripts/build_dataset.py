@@ -92,21 +92,30 @@ def load_official_stats() -> pd.DataFrame:
 
 def compute_season_stats(boxscores: pd.DataFrame, official: pd.DataFrame, rookies: list) -> pd.DataFrame:
     """
-    RealGM (plain requests + BeautifulSoup against server-rendered HTML - the
-    same technique as https://medium.com/analytics-vidhya/web-scraping-nba-
-    data-with-pandas-beautifulsoup-and-regex-pt-1-e3d73679950a, just aimed at
-    RealGM instead of Basketball-Reference since Basketball-Reference doesn't
-    cover Summer League) is now PRIMARY. The nba.com/stats.nba.com pipeline
-    (fetch_nba_official.py, fetch_nba_shotchart.py) is used as a bonus
-    top-up ONLY where RealGM has no data for a rookie - stats.nba.com is
-    known to aggressively block non-browser/cloud-IP requests (a common
-    real-world failure for `nba_api` running from GitHub Actions), so it
-    can't be relied on as the primary source the way a plain HTML scrape
-    against RealGM can.
+    NBA.com's own stats (fetch_nba_official.py, via nba_api against
+    stats.nba.com) are PRIMARY - this is the official, most authoritative
+    source, and covers all 60 rookies via one bulk LeagueDashPlayerStats
+    call rather than needing per-player lookups. RealGM is the fallback for
+    any rookie the official source doesn't have data for yet (e.g. not
+    matched to an nba_player_id, or a transient stats.nba.com failure).
     """
     rows = []
     for rookie in rookies:
         name = rookie["name"]
+
+        official_row = official[official["player"] == name] if not official.empty else pd.DataFrame()
+        if not official_row.empty:
+            r = official_row.iloc[0]
+            rows.append({
+                "name": name, "team": rookie["team"], "draft_pick": rookie["draft_pick"],
+                "games": int(r["games"]),
+                "ppg": round(r["pts_pg"], 1), "rpg": round(r["reb_pg"], 1),
+                "apg": round(r["ast_pg"], 1), "spg": round(r["stl_pg"], 1),
+                "bpg": round(r["blk_pg"], 1),
+                "ts_pct": round(r["ts_pct"], 1), "avg_game_score": round(r["avg_game_score"], 1),
+                "source": "nba_official",
+            })
+            continue
 
         player_box = boxscores[boxscores["player"] == name] if not boxscores.empty else pd.DataFrame()
         games = len(player_box)
@@ -122,20 +131,6 @@ def compute_season_stats(boxscores: pd.DataFrame, official: pd.DataFrame, rookie
                 "ts_pct": round(player_box["ts_pct"].mean(), 1),
                 "avg_game_score": round(player_box["game_score"].mean(), 1),
                 "source": "realgm",
-            })
-            continue
-
-        official_row = official[official["player"] == name] if not official.empty else pd.DataFrame()
-        if not official_row.empty:
-            r = official_row.iloc[0]
-            rows.append({
-                "name": name, "team": rookie["team"], "draft_pick": rookie["draft_pick"],
-                "games": int(r["games"]),
-                "ppg": round(r["pts_pg"], 1), "rpg": round(r["reb_pg"], 1),
-                "apg": round(r["ast_pg"], 1), "spg": round(r["stl_pg"], 1),
-                "bpg": round(r["blk_pg"], 1),
-                "ts_pct": round(r["ts_pct"], 1), "avg_game_score": round(r["avg_game_score"], 1),
-                "source": "nba_official",
             })
             continue
 
